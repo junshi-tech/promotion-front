@@ -14,3 +14,4 @@
 > 注意事项
 - 需要 docker 支持。
 - src 目录中的 index.html, career.html, ranking.html 为三个业务页面
+- 不要在 master 分支上开发，尽量建立新分支进行开发。
