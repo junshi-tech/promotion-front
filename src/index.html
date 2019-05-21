@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>我的生活</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+</head>
+<body>
+<div class="page-group">
+  <div class="page page-current">
+    <div class="content">
+      <div style="background-color: brown;height: 8rem;"></div>
+      <div align="center" style="padding: .7rem 0 .7rem 0;">
+        <div style="border-radius: 5rem; border:1px solid red; height: 5rem; width: 5rem;">aaaa</div>
+        <div>点击可更换头像</div>
+      </div>
+      <div class="list-block" style="margin-top: 0;">
+        <ul>
+          <!-- Text inputs -->
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="icon icon-form-name"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</div>
+                <div class="item-input">
+                  <input type="text" placeholder="请输入你的姓名">
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- Date -->
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="icon icon-form-calendar"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">入伍时间</div>
+                <div class="item-input">
+                  <input type="date" placeholder="请选择您的入伍时间" value="2014-04-30">
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="align-top">
+            <div class="item-content">
+              <div class="item-media"><i class="icon icon-form-comment"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级</div>
+                <div class="item-input">
+                  <input type="text" id='rank' placeholder="请选择您的入伍时间"/>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="align-top">
+            <div class="item-content">
+              <div class="item-media"><i class="icon icon-form-comment"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">兵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种</div>
+                <div class="item-input">
+                  <input type="text" id='arm' placeholder="请选择您的兵种"/>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="content-block">
+        <div class="row">
+          <div class="col-100">
+            <a href="/photo.html" class="button button-big button-fill button-danger">发&nbsp;&nbsp;&nbsp;&nbsp;起</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<script>
+  const rank = ['义务兵', '士官', '军官'];
+  const arm = ['陆军', '空军', '海军', '武警', '特种兵'];
+
+  /**
+   * 创建Picker
+   * @param title
+   * @param mod
+   * @param okTitle
+   * @returns {{toolbarTemplate: string, cols: {textAlign: string, values: string[]}[]}}
+   * @constructor
+   */
+  const CreatePicker = (title = '标题', mod = 'rank', okTitle = '确定') => {
+     const picker = {toolbarTemplate: '', cols: [{textAlign: 'center', values: [...rank]}]};
+     picker.toolbarTemplate =
+       `<header class="bar bar-nav">
+         <button class="button button-link pull-right close-picker">${okTitle}</button>
+         <h1 class="title">${title}</h1>
+       </header>`;
+
+     if(mod != 'rank'){
+       picker.cols[0].values = [...arm];
+     }
+     return picker;
+  }
+
+  $("#rank").picker(CreatePicker('请选择你的职级'));
+  $("#arm").picker(CreatePicker('请选择你的兵种', 'arm'));
+
+  const timeout = (ms) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(resolve, ms, 'done');
+    });
+  }
+
+  timeout(5000).then((value) => {
+    console.log(value);
+  });
+</script>
+</body>
+</html>
