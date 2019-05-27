@@ -1,92 +1,24 @@
-# [HTML5 Boilerplate](https://html5boilerplate.com/)
+# junshi
 
-[![Build Status](https://travis-ci.org/h5bp/html5-boilerplate.svg)](https://travis-ci.org/h5bp/html5-boilerplate)
-[![devDependency Status](https://david-dm.org/h5bp/html5-boilerplate/dev-status.svg)](https://david-dm.org/h5bp/html5-boilerplate#info=devDependencies)
+> 目录介绍
+- container:容器配置文件目录
+- dist:网站实际发布目录(只做发布不能在此做开发)
+- src:网站源文件目录(在此做开发)
+- test:测试文件
 
-HTML5 Boilerplate is a professional front-end template for building
-fast, robust, and adaptable web apps or sites.
+> 本地如何运行
+1. fork [上游](https://github.com/junshi-tech/promotion-front) 到自己仓库
+2. 进入工作空间,运行命令:git clone https://github.com/yougitname/promotion-front.git
+3. cd promotion-front && docker-composer up -d
+4. 访问 localhost 即可
+5. 建立新分支并进行代码修改, 然后提交至自己仓库。
+6. 提交 PR(pull request) 至上游
+7. 登录上游账号,合并你刚刚提交的PR进master分支。
+8. 登录服务器,进入 /root/www/promotion-front/ 目录, 运行 ./start.sh 脚本.会从上游拉取最新的代码到服务器。
+9. 打开网站,查看最新代码 
 
-This project is the product of years of iterative development and
-community knowledge. It does not impose a specific development
-philosophy or framework, so you're free to architect your code in the
-way that you want.
+> 注意事项
+- 需要 docker 支持。
+- src 目录中的 index.html, career.html, ranking.html 为三个业务页面
+- 不要在 master 分支上开发，尽量建立新分支进行开发。
 
-* Homepage: [https://html5boilerplate.com/](https://html5boilerplate.com/)
-* Source: [https://github.com/h5bp/html5-boilerplate](https://github.com/h5bp/html5-boilerplate)
-* Twitter: [@h5bp](https://twitter.com/h5bp)
-
-
-## Quick start
-
-Choose one of the following options:
-
-- Download the latest stable release from
-  [html5boilerplate.com](https://html5boilerplate.com/).
-- Clone the git repo — `git clone
-  https://github.com/h5bp/html5-boilerplate.git` - and checkout the
-  [tagged release](https://github.com/h5bp/html5-boilerplate/releases)
-  you'd like to use.
-- Install with [npm](https://www.npmjs.com/): `npm install html5-boilerplate` and pull in what you need from the resulting `node_modules/html5-boilerplate/dist`
-- Install with [yarn](https://yarnpkg.com/): `yarn add html5-boilerplate`
-
-
-## Features
-
-* HTML5 ready. Use the new elements with confidence.
-* Designed with progressive enhancement in mind.
-* Includes:
-  * [`Normalize.css`](https://necolas.github.com/normalize.css/)
-    for CSS normalizations and common bug fixes
-  * [`jQuery`](https://jquery.com/) via CDN with [SRI Hash](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) and a local fallback
-  * A custom build of [`Modernizr`](https://modernizr.com/) for feature
-    detection
-  * [`Apache Server Configs`](https://github.com/h5bp/server-configs-apache)
-    that, among other, improve the web site's performance and security
-* Placeholder CSS Media Queries.
-* Useful CSS helper classes.
-* Default print styles, performance optimized.
-* An optimized version of the Google Universal Analytics snippet.
-* Protection against any stray `console` statements causing JavaScript
-  errors in older browsers.
-* "Delete-key friendly." Easy to strip out parts you don't need.
-* Extensive inline and accompanying documentation.
-
-
-## Browser support
-
-* Chrome *(latest 2)*
-* Edge *(latest 2)*
-* Firefox *(latest 2)*
-* Internet Explorer 11
-* Opera *(latest 2)*
-* Safari *(latest 2)*
-
-*This doesn't mean that HTML5 Boilerplate cannot be used in older browsers,
-just that we'll ensure compatibility with the ones mentioned above.*
-
-If you need legacy browser support you can use [HTML5 Boilerplate v6](https://github.com/h5bp/html5-boilerplate/releases/tag/6.1.0) (IE9/IE10)
-or [HTML5 Boilerplate v5](https://github.com/h5bp/html5-boilerplate/releases/tag/5.3.0) (IE 8). They are no longer actively developed.
-
-
-## Documentation
-
-Take a look at the [documentation table of contents](dist/doc/TOC.md).
-This documentation is bundled with the project which makes it 
-available for offline reading and provides a useful starting point for
-any documentation you want to write about your project.
-
-
-## Contributing
-
-Hundreds of developers have helped to make the HTML5 Boilerplate. Anyone is welcome to [contribute](.github/CONTRIBUTING.md),
-however, if you decide to get involved, please take a moment to review
-the [guidelines](.github/CONTRIBUTING.md):
-
-* [Bug reports](.github/CONTRIBUTING.md#bugs)
-* [Feature requests](.github/CONTRIBUTING.md#features)
-* [Pull requests](.github/CONTRIBUTING.md#pull-requests)
-
-
-## License
-
-The code is available under the [MIT license](LICENSE.txt).
