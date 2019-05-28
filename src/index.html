@@ -18,7 +18,7 @@
     <div class="content">
       <div style="background-color: brown;height: 8rem;"></div>
       <div align="center" style="padding: .7rem 0 .7rem 0;">
-        <div style="border-radius: 5rem; border:1px solid red; height: 5rem; width: 5rem;">aaaa</div>
+        <div style="border-radius: 5rem; border:1px solid red; height: 5rem; width: 5rem;">vvvv</div>
         <div>点击可更换头像</div>
       </div>
       <div class="list-block" style="margin-top: 0;">
@@ -114,15 +114,42 @@
   $("#rank").picker(CreatePicker('请选择你的职级'));
   $("#arm").picker(CreatePicker('请选择你的兵种', 'arm'));
 
-  const timeout = (ms) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(resolve, ms, 'done');
+  //获取链接参数
+  var params = (() => {
+    var query = location.search.substr(1)
+    query = query.split('&')
+    var params = {}
+    for (let i = 0; i < query.length; i++) {
+      let q = query[i].split('=')
+      if (q.length === 2) {
+        params[q[0]] = q[1]
+      }
+    }
+    return params;
+  })();
+
+  //是否已授权
+  if(!params.token){
+    location.href = location.origin + '/soldier/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080';
+  }else{
+    function* gen() {
+       var url = 'http://localhost/index/ccf';
+       return yield fetch(url);
+    }
+
+    var g = gen();
+    var result = g.next();
+
+    result.value.then(function(data){
+      data.json().then(value => {
+        console.log(value)
+      }, error => {
+        console.log(error)
+      });
+    }).then(function(data){
+      g.next(data);
     });
   }
-
-  timeout(5000).then((value) => {
-    console.log(value);
-  });
 </script>
 </body>
 </html>
