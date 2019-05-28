@@ -130,9 +130,25 @@
 
   //是否已授权
   if(!params.token){
-    location.href = location.origin + '/soldier/Wechat/Login.html?back_url=' + location.origin;
+    location.href = location.origin + '/soldier/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080';
   }else{
+    function* gen() {
+       var url = 'http://localhost/index/ccf';
+       return yield fetch(url);
+    }
 
+    var g = gen();
+    var result = g.next();
+
+    result.value.then(function(data){
+      data.json().then(value => {
+        console.log(value)
+      }, error => {
+        console.log(error)
+      });
+    }).then(function(data){
+      g.next(data);
+    });
   }
 </script>
 </body>
