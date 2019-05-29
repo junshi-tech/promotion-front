@@ -133,7 +133,7 @@
     location.href = 'http://www.szsjunshi.com/soldier/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080';
   }else{
     function* gen() {
-       var url = 'http://localhost/index/ccf';
+       var url = 'http://junshi.ingcu.com/soldier/Wechat/getUserInfo?token=' + params.token;
        return yield fetch(url);
     }
 
