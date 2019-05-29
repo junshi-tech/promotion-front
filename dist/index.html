@@ -192,7 +192,11 @@
     var res = g.next();
     res.value.then(item => {
       item.json().then(val => {
-        console.log(val);
+        if(!val.code){
+           $.toast(val.msg);
+        }else{
+           alert('ok');
+        }
       }, err => {
         console.log(err);
       });
