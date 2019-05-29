@@ -17,9 +17,10 @@
   <div class="page page-current">
     <div class="content">
       <div style="background-color: brown;height: 8rem;"></div>
-      <div align="center" style="padding: .7rem 0 .7rem 0;">
-        <div style="border-radius: 5rem; border:1px solid red; height: 5rem; width: 5rem;">vvvv</div>
-        <div>点击可更换头像</div>
+      <div align="center" style="padding: .7rem 0 .7rem 0; height: 6rem;">
+        <div style="width: 5rem; height: 5rem; border-radius: 50%; border: .2rem solid #fff; overflow: hidden;">
+          <img src="img/WX.png" width="100" height="100" id="uAvatar" />
+        </div>
       </div>
       <div class="list-block" style="margin-top: 0;">
         <ul>
@@ -142,7 +143,7 @@
 
     result.value.then(function(data){
       data.json().then(value => {
-        console.log(value)
+        $('#uAvatar').attr('src', value.data.headimgurl);
       }, error => {
         console.log(error)
       });
