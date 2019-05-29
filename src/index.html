@@ -162,8 +162,9 @@
 
         //写入数据库
         g = gen(soldierUrl +  '/saveData', {
-          body: data,
-          method: 'POST'
+          body: JSON.stringify(data),
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'}
         });
 
         var res = g.next();
