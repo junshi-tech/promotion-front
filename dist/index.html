@@ -17,10 +17,11 @@
   <div class="page page-current">
     <div class="content">
       <div style="background-color: brown;height: 8rem;"></div>
-      <div align="center" style="padding: .7rem 0 .7rem 0; height: 6rem;">
+      <div align="center" style="padding: .7rem 0 .7rem 0; height: 7rem;">
         <div style="width: 5rem; height: 5rem; border-radius: 50%; border: .2rem solid #fff; overflow: hidden;">
-          <img src="img/WX.png" width="100" height="100" id="uAvatar" />
+          <img src="img/WX.png" width="100" height="100" id="uAvatar" alt="uAvatar" />
         </div>
+        <div id="uNickname">&nbsp;</div>
       </div>
       <div class="list-block" style="margin-top: 0;">
         <ul>
@@ -131,7 +132,7 @@
 
   //是否已授权
   if(!params.token){
-    location.href = 'http://www.szsjunshi.com/soldier/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080';
+    //location.href = 'http://www.szsjunshi.com/soldier/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080';
   }else{
     function* gen() {
        var url = 'http://www.szsjunshi.com/soldier/Wechat/getUserInfo?token=' + params.token;
@@ -144,6 +145,7 @@
     result.value.then(function(data){
       data.json().then(value => {
         $('#uAvatar').attr('src', value.data.headimgurl);
+        $('#uNickname').text(value.data.nickname);
       }, error => {
         console.log(error)
       });
