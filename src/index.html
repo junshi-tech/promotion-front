@@ -94,10 +94,28 @@
   const arm = ['陆军', '空军', '海军', '武警', '特种兵'];
 
   /**
+   * 查找key
+   * @param mode 类别
+   * @param value 名称
+   * @return int index
+   */
+  const findKey = (mode, value) => {
+    let list = mode == 'rank' ? rank : arm;
+    let _index = 0;
+    for(let i = 0; i < list.length; i++){
+       if(rank[i] == value){
+         _index = i + 1;
+         break;
+       }
+    }
+    return _index;
+  }
+
+  /**
    * 创建Picker
-   * @param title
-   * @param mod
-   * @param okTitle
+   * @param title 标题
+   * @param mod  类别
+   * @param okTitle OK键名称
    * @returns {{toolbarTemplate: string, cols: {textAlign: string, values: string[]}[]}}
    * @constructor
    */
@@ -147,7 +165,7 @@
 
   //用户信息
   const User = {};
-  User.phone = '';
+  User.phone = '13800138000';
   User.img_url = [];
 
   //是否已授权
@@ -180,7 +198,11 @@
 
     //设置用户信息
     for(let item of data){
-      User[item.name] = item.value;
+      if(item.name == 'rank' || item.name == 'type'){
+        User[item.name] = findKey(item.name, item.value);
+      }else{
+        User[item.name] = item.value;
+      }
     }
 
     //写入数据库
