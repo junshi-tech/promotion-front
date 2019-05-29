@@ -215,9 +215,9 @@
     res.value.then(item => {
       item.json().then(val => {
         if(!val.code){
-           $.toast(val.msg);
+           $.alert(val.msg, 'Warning');
         }else{
-           alert('ok');
+          $.toast(val.msg);
         }
       }, err => {
         console.log(err);
