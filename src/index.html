@@ -24,7 +24,8 @@
         <div id="uNickname">&nbsp;</div>
       </div>
       <div class="list-block" style="margin-top: 0;">
-        <ul>
+        <form id="uForm">
+          <ul>
           <!-- Text inputs -->
           <li>
             <div class="item-content">
@@ -32,7 +33,7 @@
               <div class="item-inner">
                 <div class="item-title label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</div>
                 <div class="item-input">
-                  <input type="text" placeholder="请输入你的姓名">
+                  <input type="text" name="username" placeholder="请输入你的姓名">
                 </div>
               </div>
             </div>
@@ -44,7 +45,7 @@
               <div class="item-inner">
                 <div class="item-title label">入伍时间</div>
                 <div class="item-input">
-                  <input type="date" placeholder="请选择您的入伍时间" value="2014-04-30">
+                  <input type="date" name="join_time" placeholder="请选择您的入伍时间" value="2014-04-30">
                 </div>
               </div>
             </div>
@@ -55,7 +56,7 @@
               <div class="item-inner">
                 <div class="item-title label">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级</div>
                 <div class="item-input">
-                  <input type="text" id='rank' placeholder="请选择您的入伍时间"/>
+                  <input type="text" name="rank" placeholder="请选择您的入伍时间"/>
                 </div>
               </div>
             </div>
@@ -66,17 +67,18 @@
               <div class="item-inner">
                 <div class="item-title label">兵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种</div>
                 <div class="item-input">
-                  <input type="text" id='arm' placeholder="请选择您的兵种"/>
+                  <input type="text" name="type" placeholder="请选择您的兵种"/>
                 </div>
               </div>
             </div>
           </li>
         </ul>
+        </form>
       </div>
       <div class="content-block">
         <div class="row">
           <div class="col-100">
-            <a href="/photo.html" class="button button-big button-fill button-danger">发&nbsp;&nbsp;&nbsp;&nbsp;起</a>
+            <a class="button button-big button-fill button-danger" id="btn-send">发&nbsp;&nbsp;&nbsp;&nbsp;起</a>
           </div>
         </div>
       </div>
@@ -113,9 +115,10 @@
      return picker;
   }
 
-  $("#rank").picker(CreatePicker('请选择你的职级'));
-  $("#arm").picker(CreatePicker('请选择你的兵种', 'arm'));
+  $("input[name='rank']").picker(CreatePicker('请选择你的职级'));
+  $("input[name='type']").picker(CreatePicker('请选择你的兵种', 'arm'));
 
+  //API 地址
   const soldierUrl = 'http://www.szsjunshi.com/soldier';
 
   //获取链接参数
@@ -132,15 +135,26 @@
     return params;
   })();
 
+  /**
+   * 异步请求
+   * @param url
+   * @param headers
+   * @returns {IterableIterator<*>}
+   */
+  function* gen(url, headers = {}) {
+    return yield fetch(url, headers);
+  }
+
+  //用户信息
+  const User = {};
+  User.phone = '';
+  User.img_url = [];
+
   //是否已授权
   if(!params.token){
     location.href = soldierUrl + '/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080';
   }else{
     //首次登录鉴权后获取用户信息
-    function* gen(url, headers = {}) {
-       return yield fetch(url, headers);
-    }
-
     var g = gen(soldierUrl + '/Wechat/getUserInfo?token=' + params.token);
     var result = g.next();
 
@@ -150,35 +164,8 @@
         $('#uAvatar').attr('src', value.data.headimgurl);
         $('#uNickname').text(value.data.nickname);
 
-        //设置用户信息
-        const data = {};
-        data.token = params.token;
-        data.user_id = value.data.user_id;
-        data.username = '邱斌';
-        data.phone = '13544010147';
-        data.join_time = '2019';
-        data.rank = $('#rank').val();
-        data.type = $('#arm').val();
-        data.img_url = [];
-
-        //写入数据库
-        g = gen(soldierUrl +  '/saveData', {
-          body: JSON.stringify(data),
-          method: 'POST'
-        });
-
-        var res = g.next();
-        res.value.then(item => {
-          item.json().then(val => {
-             console.log(val);
-          }, err => {
-            console.log(err);
-          });
-        }).then(item => {
-          g.next(item)
-        });
-
-
+        User.token = params.token;
+        User.user_id = value.data.user_id;
       }, error => {
         console.log(error)
       });
@@ -186,6 +173,33 @@
       g.next(data);
     });
   }
+
+  //发起按钮事件
+  $('#btn-send').on('click', function () {
+    var data = $('#uForm').serializeArray();
+
+    //设置用户信息
+    for(let item of data){
+      User[item.name] = item.value;
+    }
+
+    //写入数据库
+    var g = gen(soldierUrl +  '/saveData', {
+      body: JSON.stringify(User),
+      method: 'POST'
+    });
+
+    var res = g.next();
+    res.value.then(item => {
+      item.json().then(val => {
+        console.log(val);
+      }, err => {
+        console.log(err);
+      });
+    }).then(item => {
+      g.next(item)
+    });
+  });
 </script>
 </body>
 </html>
