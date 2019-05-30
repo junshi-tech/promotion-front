@@ -170,10 +170,10 @@
 
   //是否已授权
   if(!params.token){
-    location.href = soldierUrl + '/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080';
+    location.href =  `${soldierUrl}/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080`;
   }else{
     //首次登录鉴权后获取用户信息
-    var g = gen(soldierUrl + '/Wechat/getUserInfo?token=' + params.token);
+    var g = gen(`${soldierUrl}/Wechat/getUserInfo?token=${params.token}`);
     var result = g.next();
 
     result.value.then(function(data){
@@ -188,7 +188,17 @@
 
         //检测用户是否登录
         let logined = isLogin(User.user_id, User.token);
-        console.log(logined);
+        logined.value.then(data => {
+          data.json().then(value => {
+            console.log(value);
+          }, error => {
+            console.log(error)
+          });
+        }).then(data => {
+          g.next(data);
+        });
+
+
       }, error => {
         console.log(error)
       });
@@ -205,16 +215,7 @@
   var isLogin = (user_id, token) => {
     let g = gen(`${soldierUrl}/getData.html?id=${user_id}&token=${token}`);
     let result = g.next();
-
-    result.value.then(data => {
-      data.json().then(value => {
-         return value;
-      }, error => {
-        console.log(error)
-      });
-    }).then(data => {
-      g.next(data);
-    });
+    return result;
   }
 
   //发起按钮事件
@@ -231,7 +232,7 @@
     }
 
     //写入数据库
-    var g = gen(soldierUrl +  '/saveData', {
+    var g = gen(`${soldierUrl}/saveData`, {
       body: JSON.stringify(User),
       method: 'POST'
     });
