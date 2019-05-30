@@ -190,7 +190,9 @@
         let logined = isLogin(User.user_id, User.token);
         logined.value.then(data => {
           data.json().then(value => {
-            console.log(value);
+            if(value.data){
+               alert('跳转...');
+            }
           }, error => {
             console.log(error)
           });
