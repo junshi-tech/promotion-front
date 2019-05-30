@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>我的生活</title>
+  <title>发起</title>
   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
   <link rel="shortcut icon" href="/favicon.ico">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -182,12 +182,37 @@
         $('#uAvatar').attr('src', value.data.headimgurl);
         $('#uNickname').text(value.data.nickname);
 
+        //初始化当前用户属性,用于发起
         User.token = params.token;
         User.user_id = value.data.user_id;
+
+        //检测用户是否登录
+        let logined = isLogin(User.user_id, User.token);
+        console.log(logined);
       }, error => {
         console.log(error)
       });
     }).then(function(data){
+      g.next(data);
+    });
+  }
+
+  /**
+   * 判断用户是否登录
+   * @param user_id
+   * @param token
+   */
+  var isLogin = (user_id, token) => {
+    let g = gen(`${soldierUrl}/getData.html?id=${user_id}&token=${token}`);
+    let result = g.next();
+
+    result.value.then(data => {
+      data.json().then(value => {
+         return value;
+      }, error => {
+        console.log(error)
+      });
+    }).then(data => {
       g.next(data);
     });
   }
