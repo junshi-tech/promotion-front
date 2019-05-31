@@ -9,23 +9,10 @@ services:
     volumes:
       - ./container/nginx-vhost/myapp.conf:/bitnami/nginx/conf/vhosts/myapp.conf
       - .:/app
-    restart: always  
-    depends_on:
-      - php-fpm
-    networks:
-      vpcbr:
-        ipv4_address: 10.0.0.2
-
-  php-fpm:
-    container_name: junshi_fpm
-    image: bitnami/php-fpm:latest
-    volumes:
-      - .:/app
-      - ./container/php/custom.ini:/opt/bitnami/php/etc/conf.d/custom.ini
     restart: always
     networks:
       vpcbr:
-        ipv4_address: 10.0.0.3
+        ipv4_address: 10.0.0.2
 
 networks:
   vpcbr:
