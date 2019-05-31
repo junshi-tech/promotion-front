@@ -204,6 +204,8 @@
       User.headimgurl = value.data.headimgurl;
       User.nickname = value.data.nickname;
 
+      console.log(User);
+
       //检测用户是否登录
       isLogin(User.user_id, User.token);
     });
