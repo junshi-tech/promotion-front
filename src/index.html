@@ -204,10 +204,8 @@
       User.headimgurl = value.data.headimgurl;
       User.nickname = value.data.nickname;
 
-      alert(User.toString());
-
       //检测用户是否登录
-      isLogin(User.user_id, User.token);
+      isLogin(User);
     });
   }
 
@@ -216,11 +214,11 @@
    * @param user_id
    * @param token
    */
-  var isLogin = (user_id, token) => {
-    query(`${soldierUrl}/getData.html?id=${user_id}&token=${token}`, value => {
+  var isLogin = (user) => {
+    query(`${soldierUrl}/getData.html?id=${user.user_id}&token=${user.token}`, value => {
       if(value.data){
         //保存当前用户并跳转
-        localStorage.setItem('User', JSON.stringify(value.data));
+        localStorage.setItem('User', JSON.stringify(user));
         location.href = 'home.html';
       }
     });
