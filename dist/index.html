@@ -138,8 +138,10 @@
   //API 地址
   const soldierUrl = 'http://www.szsjunshi.com/soldier';
 
-  //获取链接参数
-  var params = (() => {
+  /**
+   * 获取链接参数
+   */
+  const params = (() => {
     var query = location.search.substr(1)
     query = query.split('&')
     var params = {}
@@ -162,6 +164,25 @@
     return yield fetch(url, headers);
   }
 
+  /**
+   * 请求链接
+   * @param url
+   * @param callback
+   * @param headers
+   * @returns {IterableIterator<*>}
+   */
+  const query = (url, callback, headers = {}) => {
+    let g = gen(url, headers);
+    let result = g.next();
+
+    result.value.then(function(data){
+      data.json().then(callback, error => { throw error; });
+    }).then(function(data){
+      g.next(data);
+    });
+  }
+
+
   //用户信息
   const User = {};
   User.phone = '13800138000';
@@ -172,26 +193,17 @@
     location.href =  `${soldierUrl}/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080`;
   }else{
     //首次登录鉴权后获取用户信息
-    var g = gen(`${soldierUrl}/Wechat/getUserInfo?token=${params.token}`);
-    var result = g.next();
+    query(`${soldierUrl}/Wechat/getUserInfo?token=${params.token}`, value => {
+      //设置头像和昵称
+      $('#uAvatar').attr('src', value.data.headimgurl);
+      $('#uNickname').text(value.data.nickname);
 
-    result.value.then(function(data){
-      data.json().then(value => {
-        //设置头像和昵称
-        $('#uAvatar').attr('src', value.data.headimgurl);
-        $('#uNickname').text(value.data.nickname);
+      //初始化当前用户属性,用于发起
+      User.token = params.token;
+      User.user_id = value.data.user_id;
 
-        //初始化当前用户属性,用于发起
-        User.token = params.token;
-        User.user_id = value.data.user_id;
-
-        //检测用户是否登录
-        isLogin(User.user_id, User.token);
-      }, error => {
-        console.log(error)
-      });
-    }).then(function(data){
-      g.next(data);
+      //检测用户是否登录
+      isLogin(User.user_id, User.token);
     });
   }
 
@@ -201,21 +213,12 @@
    * @param token
    */
   var isLogin = (user_id, token) => {
-    let g = gen(`${soldierUrl}/getData.html?id=${user_id}&token=${token}`);
-    let logined = g.next();
-
-    logined.value.then(data => {
-      data.json().then(value => {
-        if(value.data){
-          //保存当前用户并跳转
-          localStorage.setItem('User', JSON.stringify(value.data));
-          location.href = 'home.html';
-        }
-      }, error => {
-        console.log(error)
-      });
-    }).then(data => {
-      g.next(data);
+    query(`${soldierUrl}/getData.html?id=${user_id}&token=${token}`, value => {
+      if(value.data){
+        //保存当前用户并跳转
+        localStorage.setItem('User', JSON.stringify(value.data));
+        location.href = 'home.html';
+      }
     });
   }
 
@@ -233,25 +236,13 @@
     }
 
     //写入数据库
-    var g = gen(`${soldierUrl}/saveData`, {
-      body: JSON.stringify(User),
-      method: 'POST'
-    });
-
-    var res = g.next();
-    res.value.then(item => {
-      item.json().then(val => {
-        if(!val.code){
-           $.alert(val.msg, 'Warning');
-        }else{
-          $.toast(val.msg);
-        }
-      }, err => {
-        console.log(err);
-      });
-    }).then(item => {
-      g.next(item)
-    });
+    query(`${soldierUrl}/saveData`, value => {
+      if(!value.code){
+        $.alert(value.msg, 'Warning');
+      }else{
+        $.toast(value.msg);
+      }
+    }, { body: JSON.stringify(User), method: 'POST'} );
   });
 </script>
 </body>
