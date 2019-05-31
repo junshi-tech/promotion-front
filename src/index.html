@@ -88,7 +88,7 @@
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
-<script type="module">
+<script>
   const rank = ['义务兵', '士官', '军官'];
   const arm = ['陆军', '空军', '海军', '武警', '特种兵'];
 
@@ -135,23 +135,65 @@
   $("input[name='rank']").picker(CreatePicker('请选择你的职级'));
   $("input[name='type']").picker(CreatePicker('请选择你的兵种', 'arm'));
 
-  /****************************************** 业务操作 ******************************************/
-  import Utiles from './js/main'
+  //API 地址
   const soldierUrl = 'http://www.szsjunshi.com/soldier';
 
-  this.User = {};
-  this.User.phone = '13800138000';
-  this.User.img_url = [];
+  /**
+   * 获取链接参数
+   */
+  const params = (() => {
+    var query = location.search.substr(1)
+    query = query.split('&')
+    var params = {}
+    for (let i = 0; i < query.length; i++) {
+      let q = query[i].split('=')
+      if (q.length === 2) {
+        params[q[0]] = q[1]
+      }
+    }
+    return params;
+  })();
 
-  const utiles = new Utiles();
-  let params = utiles.getParams();
+  /**
+   * 异步请求
+   * @param url
+   * @param headers
+   * @returns {IterableIterator<*>}
+   */
+  function* gen(url, headers = {}) {
+    return yield fetch(url, headers);
+  }
+
+  /**
+   * 请求链接
+   * @param url
+   * @param callback
+   * @param headers
+   * @returns {IterableIterator<*>}
+   */
+  const query = (url, callback, headers = {}) => {
+    let g = gen(url, headers);
+    let result = g.next();
+
+    result.value.then(function(data){
+      data.json().then(callback, error => { throw error; });
+    }).then(function(data){
+      g.next(data);
+    });
+  }
+
+
+  //用户信息
+  const User = {};
+  User.phone = '13800138000';
+  User.img_url = [];
 
   //是否已授权
   if(!params.token){
     location.href =  `${soldierUrl}/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080`;
   }else{
     //首次登录鉴权后获取用户信息
-    utiles.quest(`${soldierUrl}/Wechat/getUserInfo?token=${params.token}`, (value) => {
+    query(`${soldierUrl}/Wechat/getUserInfo?token=${params.token}`, value => {
       //设置头像和昵称
       $('#uAvatar').attr('src', value.data.headimgurl);
       $('#uNickname').text(value.data.nickname);
@@ -159,12 +201,10 @@
       //初始化当前用户属性,用于发起
       User.token = params.token;
       User.user_id = value.data.user_id;
-      User.headimgurl = value.data.headimgurl;
-      User.nickname = value.data.nickname;
 
       //检测用户是否登录
       isLogin(User.user_id, User.token);
-    })
+    });
   }
 
   /**
@@ -173,13 +213,13 @@
    * @param token
    */
   var isLogin = (user_id, token) => {
-    utiles.quest(`${soldierUrl}/getData.html?id=${user_id}&token=${token}`, (value) => {
+    query(`${soldierUrl}/getData.html?id=${user_id}&token=${token}`, value => {
       if(value.data){
         //保存当前用户并跳转
         localStorage.setItem('User', JSON.stringify(value.data));
         location.href = 'home.html';
       }
-    })
+    });
   }
 
   //发起按钮事件
@@ -196,13 +236,13 @@
     }
 
     //写入数据库
-    utiles.quest(`${soldierUrl}/saveData`, (value) => {
+    query(`${soldierUrl}/saveData`, value => {
       if(!value.code){
         $.alert(value.msg, 'Warning');
       }else{
         $.toast(value.msg);
       }
-    }, { body: JSON.stringify(User), method: 'POST' });
+    }, { body: JSON.stringify(User), method: 'POST'} );
   });
 </script>
 </body>

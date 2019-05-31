@@ -1,8 +1,8 @@
-class Utiles {
+var Utiles = {
   /**
    * 获取链接参数
    */
-  getParams() {
+  getParams: function() {
     var query = location.search.substr(1);
     query = query.split('&');
     var params = {};
@@ -13,17 +13,18 @@ class Utiles {
       }
     }
     return params;
-  }
+  },
 
   /**
    * 异步请求
    * @param url
    * @param headers
    * @return {IterableIterator<*>}
+   * @private
    */
-  *_gen(url, headers = {}){
+  _get: function* (url, headers = {}) {
     return yield fetch(url, headers);
-  }
+  },
 
   /**
    * 请求链接
@@ -31,7 +32,7 @@ class Utiles {
    * @param callback
    * @param headers
    */
-  quest(url, callback, headers = {}) {
+  query: function (url, callback, headers = {}) {
     let g = this._gen(url, headers);
     let result = g.next();
 
@@ -41,5 +42,5 @@ class Utiles {
       g.next(data);
     });
   }
-}
+};
 export default Utiles;
