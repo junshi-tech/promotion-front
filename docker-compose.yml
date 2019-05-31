@@ -1,0 +1,23 @@
+version: "3.5"
+
+services:
+  nginx:
+    container_name: junshi_web
+    image: bitnami/nginx:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - ./container/nginx-vhost/myapp.conf:/bitnami/nginx/conf/vhosts/myapp.conf
+      - .:/app
+    restart: always
+    networks:
+      vpcbr:
+        ipv4_address: 10.0.0.2
+
+networks:
+  vpcbr:
+    driver: bridge
+    name: junshi_network
+    ipam:
+     config:
+       - subnet: 10.0.0.1/16
