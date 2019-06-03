@@ -23,7 +23,7 @@
         <div id="uNickname">&nbsp;</div>
       </div>
       <div class="list-block" style="margin-top: 0;" align="center">
-        <p style="padding: .3rem; margin: .2rem;">我是中国人民解放军<span id="uType"></span><span id="uName"></span>，<span id="uJointime"></span>年入伍，职级<span type="uRank"></span></p>
+        <p style="padding: .3rem; margin: .2rem;">我是中国人民解放军<span id="uType"></span><span id="uName"></span>，<span id="uJointime"></span>年入伍，职级<span id="uRank"></span></p>
         <p style="padding: .3rem; margin: .2rem;"><a href="#" class="button button-big">中国军人，为你加油</a></p>
         <p style="padding: .3rem; margin: .2rem;">已有200人为他点赞</p>
       </div>
@@ -124,6 +124,6 @@
   $('#uName').text(User.username);
   $('#uType').text(arm[User.type] ? arm[User.type] : User.type);
   $('#uRank').text(rank[User.rank] ? rank[User.rank] : User.rank);
-  $('#uJointime').text(User.join_time);
+  $('#uJointime').text(User.join_time.substr(0, 4));
 </script>
 </html>
