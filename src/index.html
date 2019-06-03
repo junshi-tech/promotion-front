@@ -218,6 +218,11 @@
     query(`${soldierUrl}/getData.html?id=${user.user_id}&token=${user.token}`, value => {
       if(value.data){
         //保存当前用户并跳转
+        User.username = value.data.username;
+        User.phone = value.data.phone;
+        User.join_time = value.data.join_time;
+        User.rank = value.data.rank;
+        User.type = value.data.type;
         localStorage.setItem('User', JSON.stringify(user));
         location.href = 'home.html';
       }
