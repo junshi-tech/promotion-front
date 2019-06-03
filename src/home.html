@@ -114,13 +114,16 @@
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
 </body>
 <script>
+  const rank = ['义务兵', '士官', '军官'];
+  const arm = ['陆军', '空军', '海军', '武警', '特种兵'];
+
   var User = JSON.parse(localStorage.getItem('User'));
 
   $('#uAvatar').attr('src', User.headimgurl);
   $('#uNickname').text(User.nickname);
   $('#uName').text(User.username);
-  $('#uType').text(User.type);
-  $('#uRank').text(User.rank);
+  $('#uType').text(arm[User.type] ? arm[User.type] : User.type);
+  $('#uRank').text(rank[User.rank] ? rank[User.rank] : User.rank);
   $('#uJointime').text(User.join_time);
 </script>
 </html>
