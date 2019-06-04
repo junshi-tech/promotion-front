@@ -187,14 +187,15 @@
     query(`${soldierUrl}/saveLike`, value => {
       if(!value.code){
         $.alert(value.msg, 'Warning');
+      }else{
+        $.toast(value.msg);
       }
     }, { body: JSON.stringify(Like), method: 'POST'} );
   });
 
   //请求点赞列表
-  query(`${soldierUrl}/getRanking?token=${params.token}`, value => {
-    //设置头像和昵称
-
+  query(`${soldierUrl}/getRanking?token=${User.token}`, value => {
+    console.log(value);
   });
 </script>
 </html>
