@@ -181,9 +181,9 @@
   //点赞
   $('#btn-like').on('click', event => {
     let Like = {};
-    Like.token = params.token;
-    Like.soldier_id = 0;
-    Like.remark = 0;
+    Like.token = User.token;
+    Like.soldier_id = User.id;
+    Like.remark = 'fuck';
     query(`${soldierUrl}/saveLike`, value => {
       if(!value.code){
         $.alert(value.msg, 'Warning');
