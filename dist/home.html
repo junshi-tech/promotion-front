@@ -128,22 +128,21 @@
   //请求点赞列表
   query(`${soldierUrl}/getRanking?token=${User.token}`, value => {
      let soldierList = '';
-     for(var val of value.data){
+     for(var val of value.data.list){
        soldierList += `<div class="row">
         <div class="col-20" align="center">
           <div align="center" style="padding: .3rem 0 .3rem 0; height: 3.5rem;">
             <div style="width: 2.5rem; height: 2.5rem; border-radius: 50%; border: .1rem solid #fff; overflow: hidden;">
-              <img src="img/WX.png" width="50" height="50" alt="uAvatar" />
+              <img src="${val.headimgurl}" width="50" height="50" alt="${val.nickname}" />
             </div>
           </div>
         </div>
         <div class="col-50" align="center">
           <p style="margin: 0; text-align: left;">${val.username}</p>
-          <p style="margin: 0; text-align: left;">为中国军人加油</p>
+          <p style="margin: 0; text-align: left;">${val.remark}</p>
         </div>
         <div class="col-30" align="center">
-          <p style="margin: 0; text-align: left;font-size: .9rem;">2019-09-23</p>
-          <p style="margin: 0; text-align: left;font-size: .9rem;">23:02:11</p>
+          <p style="margin: 0; text-align: left;font-size: .9rem;">${val.create_time}</p>
         </div>
       </div>`;
      }
