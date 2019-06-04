@@ -195,7 +195,9 @@
 
   //请求点赞列表
   query(`${soldierUrl}/getRanking?token=${User.token}`, value => {
-    console.log(value);
+     for(let val of value){
+       console.log(val.username);
+     }
   });
 </script>
 </html>
