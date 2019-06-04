@@ -118,40 +118,21 @@
   //API 地址
   const soldierUrl = 'http://www.szsjunshi.com/soldier';
 
-  //字段
-  const rank = ['义务兵', '士官', '军官'];
-  const arm = ['陆军', '空军', '海军', '武警', '特种兵'];
-
-  //显示用户信息
-  var User = JSON.parse(localStorage.getItem('User'));
-
-  $('#uAvatar').attr('src', User.headimgurl);
-  $('#uNickname').text(User.nickname);
-  $('#uName').text(User.username);
-  $('#uType').text(arm[User.type] ? arm[User.type] : User.type);
-  $('#uRank').text(rank[User.rank] ? rank[User.rank] : User.rank);
-  $('#uJointime').text(User.join_time.substr(0, 4));
-
-  //点赞
-  $('#btn-like').on('click', event => {
-    alert(event.keyCode);
-  });
-
-  //请求点赞列表
-  query(`${soldierUrl}/Wechat/getUserInfo?token=${params.token}`, value => {
-    //设置头像和昵称
-    $('#uAvatar').attr('src', value.data.headimgurl);
-    $('#uNickname').text(value.data.nickname);
-
-    //初始化当前用户属性,用于发起
-    User.token = params.token;
-    User.user_id = value.data.user_id;
-    User.headimgurl = value.data.headimgurl;
-    User.nickname = value.data.nickname;
-
-    //检测用户是否登录
-    isLogin(User);
-  });
+  /**
+   * 获取链接参数
+   */
+  const params = (() => {
+    var query = location.search.substr(1)
+    query = query.split('&')
+    var params = {}
+    for (let i = 0; i < query.length; i++) {
+      let q = query[i].split('=')
+      if (q.length === 2) {
+        params[q[0]] = q[1]
+      }
+    }
+    return params;
+  })();
 
   /**
    * 异步请求
@@ -180,5 +161,40 @@
       g.next(data);
     });
   }
+
+  /************************************* 业务代码 *************************************/
+
+  //字段
+  const rank = ['义务兵', '士官', '军官'];
+  const arm = ['陆军', '空军', '海军', '武警', '特种兵'];
+
+  //显示用户信息
+  var User = JSON.parse(localStorage.getItem('User'));
+
+  $('#uAvatar').attr('src', User.headimgurl);
+  $('#uNickname').text(User.nickname);
+  $('#uName').text(User.username);
+  $('#uType').text(arm[User.type] ? arm[User.type] : User.type);
+  $('#uRank').text(rank[User.rank] ? rank[User.rank] : User.rank);
+  $('#uJointime').text(User.join_time.substr(0, 4));
+
+  //点赞
+  $('#btn-like').on('click', event => {
+    let Like = {};
+    Like.token = params.token;
+    Like.soldier_id = 0;
+    Like.remark = 0;
+    query(`${soldierUrl}/saveLike`, value => {
+      if(!value.code){
+        $.alert(value.msg, 'Warning');
+      }
+    }, { body: JSON.stringify(Like), method: 'POST'} );
+  });
+
+  //请求点赞列表
+  query(`${soldierUrl}/getRanking?token=${params.token}`, value => {
+    //设置头像和昵称
+
+  });
 </script>
 </html>
