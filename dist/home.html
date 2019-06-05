@@ -16,15 +16,15 @@
   <div class="page page-current">
     <div class="content">
       <div style="background-color: brown;height: 8rem;"></div>
-      <div align="center" style="padding: .7rem 0 .7rem 0; height: 6.5rem;">
+      <div align="center" style="padding: .3rem 0 .3rem 0; height: 4.7rem;">
         <div style="width: 4.5rem; height: 4.5rem; border-radius: 50%; border: .2rem solid #fff; overflow: hidden;">
           <img src="img/WX.png" width="100" height="100" id="uAvatar" alt="uAvatar" />
         </div>
         <div id="uNickname">&nbsp;</div>
       </div>
       <div class="list-block" style="margin-top: 0;" align="center">
-        <p style="padding: .3rem; margin: .2rem;">我<span id="uType"></span><span id="uRank"></span><span id="uName"></span></p>
-        <p style="padding: .3rem; margin: .2rem;"><span id="uJointime"></span>年入伍</p>
+        <p style="padding: .1rem; margin: .2rem;">我<span id="uType"></span><span id="uRank"></span><span id="uName"></span></p>
+        <p style="padding: .1rem; margin: .2rem;"><span id="uJointime"></span>年入伍</p>
         <p style="padding: .3rem; margin: .2rem;"><a href="#" class="button button-fill button-big" id="btn-like">中国军人，为你加油</a></p>
         <p style="padding: .3rem; margin: .2rem;">已有200人为他点赞</p>
       </div>
@@ -47,6 +47,34 @@
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
 </body>
 <script>
+  //标语列表
+  const words = [
+    '为中国军人加油！',
+    '有一种骄傲，叫中国军人！',
+    '向军人们致敬！',
+    '祖国因你们而强大！',
+    '军人，注定为荣誉而战！',
+    '向最可爱的人致敬。',
+    '文明之师，威武之师！',
+    '一次从军，终身光荣！',
+    '钢铁长城，人民卫士！',
+    '当兵后悔两年，不当兵后悔一辈子',
+    '一个人就是一支队伍',
+    '一人从军，全家光荣',
+    '人民最坚强的依靠！',
+    '好男儿就是要当兵！',
+    '一身戎装显露青春风采',
+    '千锤百炼锻造志强军人',
+    '昨日当兵,负千秋家国梦,写戎马经典',
+    '今时退伍,携万世手足情,创改革辉煌',
+    '戎马生涯 保卫祖国神州共日月',
+    '衣锦还乡 建设家园四海同生辉',
+    '昨日沙场洒汗水，明天事业写辉煌。',
+  ];
+
+  let curWords = words[Math.floor(Math.random() * (words.length + 1))];
+  $('#btn-like').html(curWords);
+
   //API 地址
   const soldierUrl = 'http://www.szsjunshi.com/soldier';
 
@@ -96,38 +124,49 @@
 
   /************************************* 业务代码 *************************************/
 
-  //显示用户信息
-  var User = JSON.parse(localStorage.getItem('User'));
+  //获取并用户信息
+  var User = {};
+  query(`${soldierUrl}/getData.html?soldier_id=${params.soldier_id}&token=${params.token}`, value => {
+    if(value.code){
+      //保存当前用户
+      User.soldier_id = value.data.own.id;
+      User.username = value.data.own.username;
+      User.headimgurl = value.data.own.headimgurl;
+      User.join_date = value.data.own.join_date;
+      User.rank_text = value.data.own.rank_text;
+      User.type_text = value.data.own.type_text;
+      User.likes = value.data.list;
 
-  $('#uAvatar').attr('src', User.headimgurl);
-  $('#uNickname').text(User.nickname);
-  $('#uName').text(User.username);
-  $('#uType').text(User.type_text);
-  $('#uRank').text(User.rank_text);
-  $('#uJointime').text(User.join_date);
+      //填充并显示数据
+      $('#uAvatar').attr('src', User.headimgurl);
+      $('#uNickname').text(User.nickname);
+      $('#uName').text(User.username);
+      $('#uType').text(User.type_text);
+      $('#uRank').text(User.rank_text);
+      $('#uJointime').text(User.join_date);
 
-  //点赞
-  $('#btn-like').on('click', event => {
-    let Like = {};
-    Like.token = User.token;
-    Like.soldier_id = User.soldier_id;
-    Like.remark = 'fuck';
-    query(`${soldierUrl}/saveLike`, value => {
-      if(!value.code){
-        $.alert(value.msg, 'Warning');
-      }else{
-        $.toast(value.msg);
-        setTimeout(() => {
-          location.href = `index.html?token=${params.token}`;
-        }, 2500);
-      }
-    }, { body: JSON.stringify(Like), method: 'POST'} );
-  });
+      //点赞
+      $('#btn-like').on('click', event => {
+        let Like = {};
+        Like.token = params.token;
+        Like.soldier_id = User.soldier_id;
+        Like.remark = curWords;
+        query(`${soldierUrl}/saveLike`, lik => {
+          if(!lik.code){
+            $.alert(lik.msg, '提示');
+          }else{
+            $.toast(lik.msg);
+            setTimeout(() => {
+              location.reload();
+            }, 2500);
+          }
+        }, { body: JSON.stringify(Like), method: 'POST'} );
+      });
 
-  //点赞列表
-  let soldierList = '';
-  for(var like of User.likes){
-    soldierList += `<div class="row">
+      //点赞列表
+      let soldierList = '';
+      for(var like of User.likes){
+        soldierList += `<div class="row">
           <div class="col-20" align="center">
             <div align="center" style="padding: .3rem 0 .3rem 0; height: 3.5rem;">
               <div style="width: 2.5rem; height: 2.5rem; border-radius: 50%; border: .1rem solid #fff; overflow: hidden;">
@@ -143,7 +182,11 @@
             <p style="margin: 0; text-align: left;font-size: .7rem;width:4rem;">${like.create_time}</p>
           </div>
         </div>`;
-  }
-  $('.list-block').after(soldierList);
+      }
+      $('.list-block').after(soldierList);
+    }else{
+      $.alert(value.msg, '提示');
+    }
+  });
 </script>
 </html>
