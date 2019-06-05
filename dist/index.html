@@ -201,6 +201,7 @@
       //初始化当前用户属性,用于发起
       User.token = params.token;
       User.user_id = value.data.user_id;
+      User.soldier_id = value.data.soldier_id;
       User.headimgurl = value.data.headimgurl;
       User.nickname = value.data.nickname;
 
@@ -215,7 +216,7 @@
    * @param token
    */
   var isLogin = (user) => {
-    query(`${soldierUrl}/getData.html?soldier_id=${user.user_id}&token=${user.token}`, value => {
+    query(`${soldierUrl}/getData.html?soldier_id=${user.soldier_id}&token=${user.token}`, value => {
       if(value.data){
         //保存当前用户并跳转
         User.id = value.data.id;
