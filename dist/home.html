@@ -118,7 +118,7 @@
       }else{
         $.toast(value.msg);
         setTimeout(() => {
-          location.reload();
+          location.href = `index.html?token=${params.token}`;
         }, 2500);
       }
     }, { body: JSON.stringify(Like), method: 'POST'} );
