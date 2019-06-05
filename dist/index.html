@@ -251,6 +251,9 @@
         $.alert(value.msg, 'Warning');
       }else{
         $.toast(value.msg);
+        setTimeout(() => {
+          location.href = `home.html?token=${params.token}`;
+        }, 2500);
       }
     }, { body: JSON.stringify(User), method: 'POST'} );
   });
