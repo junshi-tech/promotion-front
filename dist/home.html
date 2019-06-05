@@ -117,6 +117,9 @@
         $.alert(value.msg, 'Warning');
       }else{
         $.toast(value.msg);
+        setTimeout(() => {
+          location.reload();
+        }, 2500);
       }
     }, { body: JSON.stringify(Like), method: 'POST'} );
   });
