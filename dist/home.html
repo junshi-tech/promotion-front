@@ -26,19 +26,13 @@
         <p style="padding: .1rem; margin: .2rem;">我<span id="uType"></span><span id="uRank"></span><span id="uName"></span></p>
         <p style="padding: .1rem; margin: .2rem;"><span id="uJointime"></span>年入伍</p>
         <p style="padding: .3rem; margin: .2rem;"><a href="#" class="button button-fill button-big" id="btn-like">中国军人，为你加油</a></p>
-        <p style="padding: .3rem; margin: .2rem;">已有200人为他点赞</p>
+        <p style="padding: .3rem; margin: .2rem;" id="join-num">已有0人为他点赞</p>
       </div>
     </div>
     <nav class="bar bar-tab">
-      <a class="tab-item external active" href="#">
-        排行
-      </a>
-      <a class="tab-item external" href="#">
-        发起
-      </a>
-      <a class="tab-item external" href="#">
-        军旅
-      </a>
+      <a class="tab-item external active" href="#" id="nav-ph">排行</a>
+      <a class="tab-item external" href="#" id="nav-fq">发起</a>
+      <a class="tab-item external" href="#" id="nav-jl">军旅</a>
     </nav>
   </div>
 </div>
@@ -124,6 +118,11 @@
 
   /************************************* 业务代码 *************************************/
 
+  //导航路由
+  $('#nav-ph').attr('href', `ranking.html?token=${params.token}`);
+  $('#nav-fq').attr('href', `home.html?soldier_id=${params.soldier_id}&token=${params.token}`);
+  $('#nav-jl').attr('href', `career.html?token=${params.token}`);
+
   //获取并用户信息
   var User = {};
   query(`${soldierUrl}/getData.html?soldier_id=${params.soldier_id}&token=${params.token}`, value => {
@@ -184,6 +183,15 @@
         </div>`;
       }
       $('.list-block').after(soldierList);
+
+      //参与人数
+      query(`${soldierUrl}/getJoinNum?soldier_id=${User.soldier_id}&token=${params.token}`, joinnum => {
+        if(!joinnum.code){
+          $.alert(joinnum.msg, '提示');
+        }else{
+          $('#join-num').html(`已有${joinnum.data.number}人为他点赞`);
+        }
+      });
     }else{
       $.alert(value.msg, '提示');
     }
