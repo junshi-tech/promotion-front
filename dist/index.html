@@ -198,12 +198,16 @@
       $('#uAvatar').attr('src', value.data.headimgurl);
       $('#uNickname').text(value.data.nickname);
 
+      console.log(value);
+
       //初始化当前用户属性,用于发起
       User.token = params.token;
       User.user_id = value.data.user_id;
       User.soldier_id = value.data.soldier_id;
       User.headimgurl = value.data.headimgurl;
       User.nickname = value.data.nickname;
+
+      console.log(User);
 
       //检测用户是否登录
       isLogin(User);
@@ -226,7 +230,6 @@
         User.rank = value.data.own.rank_text;
         User.type = value.data.own.type_text;
         User.likes = value.data.list;
-        alert('aaa');
         localStorage.setItem('User', JSON.stringify(user));
         location.href = `home.html?token=${params.token}`;
       }
