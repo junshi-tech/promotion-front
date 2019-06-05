@@ -215,7 +215,7 @@
    * @param token
    */
   var isLogin = (user) => {
-    query(`${soldierUrl}/getData.html?id=${user.user_id}&token=${user.token}`, value => {
+    query(`${soldierUrl}/getData.html?soldier_id=${user.user_id}&token=${user.token}`, value => {
       if(value.data){
         //保存当前用户并跳转
         User.id = value.data.id;
