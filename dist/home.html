@@ -23,7 +23,7 @@
         <div id="uNickname">&nbsp;</div>
       </div>
       <div class="list-block" style="margin-top: 0;" align="center">
-        <p style="padding: .3rem; margin: .2rem;">我是中国人民解放军<span id="uType"></span><span id="uRank"></span><span id="uName"></span></p>
+        <p style="padding: .3rem; margin: .2rem;">我<span id="uType"></span><span id="uRank"></span><span id="uName"></span></p>
         <p style="padding: .3rem; margin: .2rem;"><span id="uJointime"></span>年入伍</p>
         <p style="padding: .3rem; margin: .2rem;"><a href="#" class="button button-fill button-big" id="btn-like">中国军人，为你加油</a></p>
         <p style="padding: .3rem; margin: .2rem;">已有200人为他点赞</p>
@@ -96,10 +96,6 @@
 
   /************************************* 业务代码 *************************************/
 
-  //字段
-  const rank = ['义务兵', '士官', '军官'];
-  const arm = ['陆军', '空军', '海军', '武警', '特种兵'];
-
   //显示用户信息
   var User = JSON.parse(localStorage.getItem('User'));
 
@@ -108,7 +104,7 @@
   $('#uName').text(User.username);
   $('#uType').text(User.type);
   $('#uRank').text(User.rank);
-  $('#uJointime').text(User.join_date);
+  $('#uJointime').text(User.join_time);
 
   //点赞
   $('#btn-like').on('click', event => {
