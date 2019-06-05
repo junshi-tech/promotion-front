@@ -227,9 +227,9 @@
         User.soldier_id = value.data.own.id;
         User.username = value.data.own.username;
         User.headimgurl = value.data.own.headimgurl;
-        User.join_time = value.data.own.join_date;
-        User.rank = value.data.own.rank_text;
-        User.type = value.data.own.type_text;
+        User.join_date = value.data.own.join_date;
+        User.rank_text = value.data.own.rank_text;
+        User.type_text = value.data.own.type_text;
         User.likes = value.data.list;
         localStorage.setItem('User', JSON.stringify(User));
         location.href = `home.html?token=${params.token}`;
