@@ -219,12 +219,12 @@
     query(`${soldierUrl}/getData.html?soldier_id=${user.soldier_id}&token=${user.token}`, value => {
       if(value.data){
         //保存当前用户并跳转
-        User.id = value.data.id;
-        User.username = value.data.username;
-        User.phone = value.data.phone;
-        User.join_time = value.data.join_time;
-        User.rank = value.data.rank;
-        User.type = value.data.type;
+        User.id = value.data.own.id;
+        User.username = value.data.own.username;
+        User.headimgurl = value.data.own.headimgurl;
+        User.join_time = value.data.own.join_date;
+        User.rank = value.data.own.rank_text;
+        User.type = value.data.own.type_text;
         localStorage.setItem('User', JSON.stringify(user));
         location.href = `home.html?token=${params.token}`;
       }
