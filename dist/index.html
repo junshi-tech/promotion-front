@@ -135,6 +135,9 @@
   $("input[name='rank']").picker(CreatePicker('请选择你的职级'));
   $("input[name='type']").picker(CreatePicker('请选择你的兵种', 'arm'));
 
+  /************************************* 业务代码 *************************************/
+  localStorage.clear();
+
   //API 地址
   const soldierUrl = 'http://www.szsjunshi.com/soldier';
 
@@ -198,19 +201,16 @@
       $('#uAvatar').attr('src', value.data.headimgurl);
       $('#uNickname').text(value.data.nickname);
 
-      console.log(value);
-
       //初始化当前用户属性,用于发起
       User.token = params.token;
       User.user_id = value.data.user_id;
-      User.soldier_id = value.data.soldier_id;
       User.headimgurl = value.data.headimgurl;
       User.nickname = value.data.nickname;
 
-      console.log(User);
-
       //检测用户是否登录
-      isLogin(User);
+      if(value.data.soldier_id != null) {
+        isLogin();
+      }
     });
   }
 
@@ -219,18 +219,18 @@
    * @param user_id
    * @param token
    */
-  var isLogin = (user) => {
-    query(`${soldierUrl}/getData.html?soldier_id=${user.soldier_id}&token=${user.token}`, value => {
+  var isLogin = () => {
+    query(`${soldierUrl}/getData.html?soldier_id=${User.soldier_id}&token=${User.token}`, value => {
       if(value.data){
         //保存当前用户并跳转
-        User.id = value.data.own.id;
+        User.soldier_id = value.data.own.id;
         User.username = value.data.own.username;
         User.headimgurl = value.data.own.headimgurl;
         User.join_time = value.data.own.join_date;
         User.rank = value.data.own.rank_text;
         User.type = value.data.own.type_text;
         User.likes = value.data.list;
-        localStorage.setItem('User', JSON.stringify(user));
+        localStorage.setItem('User', JSON.stringify(User));
         location.href = `home.html?token=${params.token}`;
       }
     });
@@ -256,7 +256,7 @@
       }else{
         $.toast(value.msg);
         setTimeout(() => {
-          location.href = `home.html?token=${params.token}`;
+          location.href = `index.html?token=${params.token}`;
         }, 2500);
       }
     }, { body: JSON.stringify(User), method: 'POST'} );

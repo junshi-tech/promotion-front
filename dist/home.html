@@ -102,9 +102,9 @@
   $('#uAvatar').attr('src', User.headimgurl);
   $('#uNickname').text(User.nickname);
   $('#uName').text(User.username);
-  $('#uType').text(User.type);
-  $('#uRank').text(User.rank);
-  $('#uJointime').text(User.join_time);
+  $('#uType').text(User.type_text);
+  $('#uRank').text(User.rank_text);
+  $('#uJointime').text(User.join_date);
 
   //点赞
   $('#btn-like').on('click', event => {
