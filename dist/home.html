@@ -110,7 +110,7 @@
   $('#btn-like').on('click', event => {
     let Like = {};
     Like.token = User.token;
-    Like.soldier_id = User.id;
+    Like.soldier_id = User.soldier_id;
     Like.remark = 'fuck';
     query(`${soldierUrl}/saveLike`, value => {
       if(!value.code){
