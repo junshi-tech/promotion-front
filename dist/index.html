@@ -225,6 +225,7 @@
         User.join_time = value.data.own.join_date;
         User.rank = value.data.own.rank_text;
         User.type = value.data.own.type_text;
+        User.likes = value.data.list;
         localStorage.setItem('User', JSON.stringify(user));
         location.href = `home.html?token=${params.token}`;
       }
