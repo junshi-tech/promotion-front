@@ -121,32 +121,26 @@
     }, { body: JSON.stringify(Like), method: 'POST'} );
   });
 
-  //请求点赞列表
-  query(`${soldierUrl}/getRanking?token=${params.token}`, value => {
-     if(value.code){
-       let soldierList = '';
-       for(var val of value.data.list){
-         soldierList += `<div class="row">
-        <div class="col-20" align="center">
-          <div align="center" style="padding: .3rem 0 .3rem 0; height: 3.5rem;">
-            <div style="width: 2.5rem; height: 2.5rem; border-radius: 50%; border: .1rem solid #fff; overflow: hidden;">
-              <img src="${val.headimgurl}" width="50" height="50" alt="${val.nickname}" />
+  //点赞列表
+  let soldierList = '';
+  for(var like of User.likes){
+    soldierList += `<div class="row">
+          <div class="col-20" align="center">
+            <div align="center" style="padding: .3rem 0 .3rem 0; height: 3.5rem;">
+              <div style="width: 2.5rem; height: 2.5rem; border-radius: 50%; border: .1rem solid #fff; overflow: hidden;">
+                <img src="${like.headimgurl}" width="50" height="50" alt="${like.username}" />
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-50" align="center">
-          <p style="margin: 0; text-align: left;">${val.username}</p>
-          <p style="margin: 0; text-align: left;">${val.remark}</p>
-        </div>
-        <div class="col-30" align="center">
-          <p style="margin: 0; text-align: left;font-size: .9rem;">${val.create_time}</p>
-        </div>
-      </div>`;
-       }
-       $('.list-block').after(soldierList);
-     }else{
-       $.alert(value.msg, 'Warning');
-     }
-  });
+          <div class="col-50" align="center">
+            <p style="margin: 0; text-align: left;">${like.username}</p>
+            <p style="margin: 0; text-align: left;">${like.remark}</p>
+          </div>
+          <div class="col-30" align="center">
+            <p style="margin: 0; text-align: left;font-size: .9rem;">${like.create_time}</p>
+          </div>
+        </div>`;
+  }
+  $('.list-block').after(soldierList);
 </script>
 </html>
