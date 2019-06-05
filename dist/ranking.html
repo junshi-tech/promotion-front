@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row rank-head">
         <div class="col-25" align="center">
           名次
         </div>
@@ -41,59 +41,11 @@
           支持
         </div>
       </div>
-      <div class="row">
-        <div class="col-25" align="center">
-          1
-        </div>
-        <div class="col-25" align="center">
-          麻拐精
-        </div>
-        <div class="col-25" align="center">
-          陆军
-        </div>
-        <div class="col-25" align="center">
-          3456
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-25" align="center">
-          2
-        </div>
-        <div class="col-25" align="center">
-          李红军
-        </div>
-        <div class="col-25" align="center">
-          陆军
-        </div>
-        <div class="col-25" align="center">
-          235
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-25" align="center">
-          3
-        </div>
-        <div class="col-25" align="center">
-          刘顺清
-        </div>
-        <div class="col-25" align="center">
-          陆军
-        </div>
-        <div class="col-25" align="center">
-          123
-        </div>
-      </div>
     </div>
     <nav class="bar bar-tab">
-      <a class="tab-item external active" href="#">
-        排行
-      </a>
-      <a class="tab-item external" href="#">
-        发起
-      </a>
-      <a class="tab-item external" href="#">
-        军旅
-      </a>
+      <a class="tab-item external active" href="#" id="nav-ph">排行</a>
+      <a class="tab-item external" href="#" id="nav-fq">发起</a>
+      <a class="tab-item external" href="#" id="nav-jl">军旅</a>
     </nav>
   </div>
 </div>
@@ -102,6 +54,77 @@
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
 <script>
+  //API 地址
+  const soldierUrl = 'http://www.szsjunshi.com/soldier';
+
+  /**
+   * 获取链接参数
+   */
+  const params = (() => {
+    var query = location.search.substr(1)
+    query = query.split('&')
+    var params = {}
+    for (let i = 0; i < query.length; i++) {
+      let q = query[i].split('=')
+      if (q.length === 2) {
+        params[q[0]] = q[1]
+      }
+    }
+    return params;
+  })();
+
+  /**
+   * 异步请求
+   * @param url
+   * @param headers
+   * @returns {IterableIterator<*>}
+   */
+  function* gen(url, headers = {}) {
+    return yield fetch(url, headers);
+  }
+
+  /**
+   * 请求链接
+   * @param url
+   * @param callback
+   * @param headers
+   * @returns {IterableIterator<*>}
+   */
+  const query = (url, callback, headers = {}) => {
+    let g = gen(url, headers);
+    let result = g.next();
+
+    result.value.then(function(data){
+      data.json().then(callback, error => { throw error; });
+    }).then(function(data){
+      g.next(data);
+    });
+  }
+
+  /************************************* 业务代码 *************************************/
+
+  //导航路由
+  $('#nav-ph').attr('href', `ranking.html?token=${params.token}`);
+  $('#nav-fq').attr('href', `home.html?soldier_id=${params.soldier_id}&token=${params.token}`);
+  $('#nav-jl').attr('href', `career.html?token=${params.token}`);
+
+  //获取排行
+  query(`${soldierUrl}/getRanking?token=${params.token}`, ranks => {
+    if(!ranks.code){
+      $.alert(ranks.msg, '提示');
+    }else{
+      let rank_contents = '';
+      for(let rank of ranks.data){
+          rank_contents += `<div class="row">
+            <div class="col-25" align="center">1</div>
+            <div class="col-25" align="center">${rank.username}</div>
+            <div class="col-25" align="center">${rank.type}</div>
+            <div class="col-25" align="center">${rank.number}</div>
+          </div>`;
+      }
+      $('.rank-head').after(rank_contents);
+    }
+  });
 </script>
 </body>
 </html>
