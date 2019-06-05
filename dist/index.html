@@ -193,6 +193,8 @@
 
   //是否已授权
   if(!params.token){
+    //http://www.szsjunshi.com:8080
+    //http://api.junshi.com
     location.href =  `${soldierUrl}/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080`;
   }else{
     //首次登录鉴权后获取用户信息
@@ -210,29 +212,7 @@
 
       //检测用户是否登录
       if(User.soldier_id != null) {
-        isLogin();
-      }
-    });
-  }
-
-  /**
-   * 判断用户是否登录
-   * @param user_id
-   * @param token
-   */
-  var isLogin = () => {
-    query(`${soldierUrl}/getData.html?soldier_id=${User.soldier_id}&token=${User.token}`, value => {
-      if(value.data){
-        //保存当前用户并跳转
-        User.soldier_id = value.data.own.id;
-        User.username = value.data.own.username;
-        User.headimgurl = value.data.own.headimgurl;
-        User.join_date = value.data.own.join_date;
-        User.rank_text = value.data.own.rank_text;
-        User.type_text = value.data.own.type_text;
-        User.likes = value.data.list;
-        localStorage.setItem('User', JSON.stringify(User));
-        location.href = `home.html?token=${params.token}`;
+        location.href = `home.html?soldier_id=${User.soldier_id}&token=${params.token}`;
       }
     });
   }
@@ -253,11 +233,11 @@
     //写入数据库
     query(`${soldierUrl}/saveData`, value => {
       if(!value.code){
-        $.alert(value.msg, 'Warning');
+        $.alert(value.msg, '提示');
       }else{
         $.toast(value.msg);
         setTimeout(() => {
-          location.href = `index.html?token=${params.token}`;
+          location.href = `home.html?soldier_id=${value.data.soldier_id}&token=${params.token}`;
         }, 2500);
       }
     }, { body: JSON.stringify(User), method: 'POST'} );
