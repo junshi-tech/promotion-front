@@ -113,7 +113,7 @@
          }, { body: JSON.stringify(Like), method: 'POST'} );
        });
 
-       //显示用户信息
+       //显示用户信息.
        $('#uAvatar').attr('src', value.data.own.headimgurl);
        $('#uName').text(value.data.own.username);
        $('#uType').text(value.data.own.type_text);
