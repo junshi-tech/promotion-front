@@ -204,11 +204,12 @@
       //初始化当前用户属性,用于发起
       User.token = params.token;
       User.user_id = value.data.user_id;
+      User.soldier_id = value.data.soldier_id;
       User.headimgurl = value.data.headimgurl;
       User.nickname = value.data.nickname;
 
       //检测用户是否登录
-      if(value.data.soldier_id != null) {
+      if(User.soldier_id != null) {
         isLogin();
       }
     });
