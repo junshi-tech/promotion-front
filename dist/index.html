@@ -198,6 +198,8 @@
       $('#uAvatar').attr('src', value.data.headimgurl);
       $('#uNickname').text(value.data.nickname);
 
+      console.log(value);
+
       //初始化当前用户属性,用于发起
       User.token = params.token;
       User.user_id = value.data.user_id;
@@ -205,7 +207,6 @@
       User.headimgurl = value.data.headimgurl;
       User.nickname = value.data.nickname;
 
-      console.log(value);
       console.log(User);
 
       //检测用户是否登录
