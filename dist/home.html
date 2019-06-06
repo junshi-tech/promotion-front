@@ -63,7 +63,7 @@
     '今时退伍,携万世手足情,创改革辉煌',
     '戎马生涯 保卫祖国神州共日月',
     '衣锦还乡 建设家园四海同生辉',
-    '昨日沙场洒汗水，明天事业写辉煌。',
+    '昨日沙场洒汗水，明天事业写辉煌。'
   ];
 
   let curWords = words[Math.floor(Math.random() * (words.length + 1))];
@@ -118,6 +118,11 @@
 
   /************************************* 业务代码 *************************************/
 
+  //检查是否登录
+  if(!params.token){
+    location.href = encodeURI(`${soldierUrl}/Wechat/Login.html?back_url=${location.href}`);
+  }
+
   //导航路由
   $('#nav-ph').attr('href', `ranking.html?token=${params.token}`);
   $('#nav-fq').attr('href', `home.html?soldier_id=${params.soldier_id}&token=${params.token}`);
@@ -125,7 +130,7 @@
 
   //获取并用户信息
   var User = {};
-  query(`${soldierUrl}/getData.html?soldier_id=${params.soldier_id}&token=${params.token}`, value => {
+  query(`${soldierUrl}/getData.html?soldier_id=${params.soldier_id}`, value => {
     if(value.code){
       //保存当前用户
       User.soldier_id = value.data.own.soldier_id;
@@ -146,10 +151,10 @@
 
       //点赞
       $('#btn-like').on('click', event => {
-        let Like = {};
-        Like.token = params.token;
-        Like.soldier_id = User.soldier_id;
-        Like.remark = curWords;
+        let like = {};
+        like.token = params.token;
+        like.soldier_id = User.soldier_id;
+        like.remark = curWords;
         query(`${soldierUrl}/saveLike`, lik => {
           if(!lik.code){
             $.alert(lik.msg, '提示');
@@ -159,7 +164,7 @@
               location.reload();
             }, 2500);
           }
-        }, { body: JSON.stringify(Like), method: 'POST'} );
+        }, { body: JSON.stringify(like), method: 'POST'} );
       });
 
       //点赞列表
@@ -185,7 +190,7 @@
       $('.list-block').after(soldierList);
 
       //参与人数
-      query(`${soldierUrl}/getJoinNum?soldier_id=${User.soldier_id}&token=${params.token}`, joinnum => {
+      query(`${soldierUrl}/getJoinNum?soldier_id=${User.soldier_id}`, joinnum => {
         if(!joinnum.code){
           $.alert(joinnum.msg, '提示');
         }else{
