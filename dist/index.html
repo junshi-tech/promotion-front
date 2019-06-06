@@ -193,8 +193,7 @@
 
   //是否已授权
   if(!params.token){
-    //http://www.szsjunshi.com:8080
-    //http://api.junshi.com
+    //location.href =  `${soldierUrl}/Wechat/Login.html?back_url=http://api.junshi.com`;
     location.href =  `${soldierUrl}/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080`;
   }else{
     //首次登录鉴权后获取用户信息

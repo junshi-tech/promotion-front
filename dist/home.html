@@ -128,7 +128,7 @@
   query(`${soldierUrl}/getData.html?soldier_id=${params.soldier_id}&token=${params.token}`, value => {
     if(value.code){
       //保存当前用户
-      User.soldier_id = value.data.own.id;
+      User.soldier_id = value.data.own.soldier_id;
       User.username = value.data.own.username;
       User.headimgurl = value.data.own.headimgurl;
       User.join_date = value.data.own.join_date;
