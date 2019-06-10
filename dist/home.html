@@ -39,8 +39,19 @@
 <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
 <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.4.0.js' charset='utf-8'></script>
 </body>
 <script>
+  /*/微信分享初始化
+  wx.config({
+    debug: true,
+    appId: 'wxe44a1668683a741e',
+    timestamp: '',
+    nonceStr: '',
+    signature: '',
+    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ']
+  });*/
+
   //标语列表
   const words = [
     '为中国军人加油！',
@@ -125,7 +136,7 @@
 
   //导航路由
   $('#nav-ph').attr('href', `ranking.html?token=${params.token}`);
-  $('#nav-fq').attr('href', `home.html?soldier_id=${params.soldier_id}&token=${params.token}`);
+  $('#nav-fq').attr('href', `index.html?token=${params.token}`);
   $('#nav-jl').attr('href', `career.html?token=${params.token}`);
 
   //获取并用户信息
@@ -158,6 +169,7 @@
         query(`${soldierUrl}/saveLike`, lik => {
           if(!lik.code){
             $.alert(lik.msg, '提示');
+            $('#btn-like').addClass('disabled').unbind('click');
           }else{
             $.toast(lik.msg);
             setTimeout(() => {

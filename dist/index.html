@@ -218,6 +218,7 @@
 
   //发起按钮事件
   $('#btn-send').on('click', function () {
+    $(this).addClass('disabled').unbind('click');
     var data = $('#uForm').serializeArray();
 
     //设置用户信息
