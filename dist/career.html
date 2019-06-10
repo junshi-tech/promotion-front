@@ -27,104 +27,8 @@
           </div>
         </div>
       </div>
-      <div class="row" style="padding: 0 .5rem 0 1.3rem;">
+      <div class="row" id="upload-panl" style="padding: 0 .5rem 0 1.3rem;">
         <input type="file" name="upload-image">
-      </div>
-      <div class="row">
-        <div class="col-100">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-content-inner" style="padding: 0;">
-                <table width="100%">
-                  <tr>
-                    <td width="85%"><img src="img/005.jpg" height="120" width="100%"></td>
-                    <td width="15%" style="background-color: #888; color: #fff; text-align: center;" class="btn-delete">删除</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-100">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-content-inner" style="padding: 0;">
-                <table width="100%">
-                  <tr>
-                    <td width="85%"><img src="img/005.jpg" height="120" width="100%"></td>
-                    <td width="15%" style="background-color: #888; color: #fff; text-align: center;" class="btn-delete">删除</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-100">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-content-inner" style="padding: 0;">
-                <table width="100%">
-                  <tr>
-                    <td width="85%"><img src="img/005.jpg" height="120" width="100%"></td>
-                    <td width="15%" style="background-color: #888; color: #fff; text-align: center;" class="btn-delete">删除</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-100">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-content-inner" style="padding: 0;">
-                <table width="100%">
-                  <tr>
-                    <td width="85%"><img src="img/005.jpg" height="120" width="100%"></td>
-                    <td width="15%" style="background-color: #888; color: #fff; text-align: center;" class="btn-delete">删除</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-100">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-content-inner" style="padding: 0;">
-                <table width="100%">
-                  <tr>
-                    <td width="85%"><img src="img/005.jpg" height="120" width="100%"></td>
-                    <td width="15%" style="background-color: #888; color: #fff; text-align: center;" class="btn-delete">删除</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-100">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-content-inner" style="padding: 0;">
-                <table width="100%">
-                  <tr>
-                    <td width="85%"><img src="img/005.jpg" height="120" width="100%"></td>
-                    <td width="15%" style="background-color: #888; color: #fff; text-align: center;" class="btn-delete">删除</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <nav class="bar bar-tab">
@@ -188,12 +92,80 @@
   /************************************* 业务代码 *************************************/
 
   //导航路由
-  $('#nav-ph').attr('href', `ranking.html?token=${params.token}`);
-  $('#nav-fq').attr('href', `index.html?token=${params.token}`);
-  $('#nav-jl').attr('href', `career.html?token=${params.token}`);
+  $('#nav-ph').attr('href', `ranking.html?token=${params.token}&soldier_id=${params.soldier_id}`);
+  $('#nav-fq').attr('href', `index.html?token=${params.token}&soldier_id=${params.soldier_id}`);
+  $('#nav-jl').attr('href', `career.html?token=${params.token}&soldier_id=${params.soldier_id}`);
 
-  $('.btn-delete').on('click', function () {
-    alert('aa');
+  //上传图片
+  $('input[name="upload-image"]').on('change', function () {
+    const fr = new FileReader();
+    fr.onloadend = e => {
+      const career = {};
+      career.token = params.token;
+      career.soldier_id = params.soldier_id;
+      career.image_base64 = e.target.result;
+      query(`${soldierUrl}/addImg.html`, value => {
+        if (value.code) {
+          $.toast(value.msg);
+          location.reload();
+        }else{
+          $.alert(value.msg, '提示');
+        }
+      }, {
+        body: JSON.stringify(career),
+        method: 'POST',
+        headers: {'Content-Type': 'multipart/form-data'}
+      });
+    }
+    fr.readAsDataURL(this.files[0]);
+  });
+
+  //读取图片信息
+  query(`${soldierUrl}/getData.html?soldier_id=${params.soldier_id}`, value => {
+    if(value.code){
+      //图片列表
+      let pictures = '';
+      for(let img of value.data.own.img_url){
+         pictures += `<div class="row">
+            <div class="col-100">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-content-inner" style="padding: 0;">
+                    <table width="100%">
+                      <tr>
+                        <td width="85%"><img src="${img}" height="120" width="100%"></td>
+                        <td width="15%" style="background-color: #888; color: #fff; text-align: center;" class="btn-delete">删除</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }
+      $('#upload-panl').after(pictures);
+
+      //删除图片
+      $('.btn-delete').on('click', function () {
+         const image = {};
+         image.token = params.token;
+         image.soldier_id = params.soldier_id;
+         image.img_url = $(this).prev().find('img').attr('src');
+         query(`${soldierUrl}/delImg.html`, value => {
+           if (value.code) {
+             $.toast(value.msg);
+             location.reload();
+           }else{
+             $.alert(value.msg, '提示');
+           }
+         }, {
+           body: JSON.stringify(image),
+           method: 'POST'
+        });
+      });
+    }else{
+      $.alert(value.msg, '提示');
+    }
   });
 </script>
 </body>

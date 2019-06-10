@@ -104,9 +104,9 @@
   /************************************* 业务代码 *************************************/
 
   //导航路由
-  $('#nav-ph').attr('href', `ranking.html?token=${params.token}`);
-  $('#nav-fq').attr('href', `index.html?token=${params.token}`);
-  $('#nav-jl').attr('href', `career.html?token=${params.token}`);
+  $('#nav-ph').attr('href', `ranking.html?token=${params.token}&soldier_id=${params.soldier_id}`);
+  $('#nav-fq').attr('href', `index.html?token=${params.token}&soldier_id=${params.soldier_id}`);
+  $('#nav-jl').attr('href', `career.html?token=${params.token}&soldier_id=${params.soldier_id}`);
 
   //获取排行
   query(`${soldierUrl}/getRanking?token=${params.token}`, ranks => {
