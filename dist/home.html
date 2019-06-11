@@ -47,16 +47,6 @@
 <script type='text/javascript' src='//res.wx.qq.com/open/js/jweixin-1.4.0.js' charset='utf-8'></script>
 </body>
 <script>
-  /*/微信分享初始化
-  wx.config({
-    debug: true,
-    appId: 'wxe44a1668683a741e',
-    timestamp: '',
-    nonceStr: '',
-    signature: '',
-    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ']
-  });*/
-
   //标语列表
   const words = [
     '为中国军人加油！',
@@ -136,6 +126,33 @@
   }
 
   /************************************* 业务代码 *************************************/
+
+  //微信分享
+  query(`${soldierUrl}/Wechat/getShareConfig.html?url=${location.href.substr(0, location.href.indexOf('&'))}`, value => {
+     if(value.code){
+       //微信分享初始化
+       wx.config({
+         debug: value.data.debug,
+         appId: value.data.appId,
+         timestamp: value.data.timestamp,
+         nonceStr: value.data.nonceStr,
+         signature: value.data.signature,
+         jsApiList: value.data.jsApiList
+       });
+
+       wx.ready(function () {
+         wx.updateAppMessageShareData({
+           title: 'aaa',
+           desc: 'bbb',
+           link: value.data.url,
+           imgUrl: '',
+           success: function () {
+             // 设置成功
+           }
+         })
+       });
+     }
+  });
 
   //检查是否登录
   if(!params.token){
