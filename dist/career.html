@@ -8,7 +8,6 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
   <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
   <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
 </head>
@@ -16,30 +15,21 @@
 <div class="page-group">
   <div class="page page-current">
     <div class="content" style="margin-bottom: 2.6rem;">
-      <div class="row">
-        <div class="col-100">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-content-inner">
-                <img src="img/005.jpg" width="325" height="160">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row" id="upload-panl" style="padding: 0 .5rem 0 1.3rem;">
+      <div style="height: 9rem;background: url('img/03.jpg') center repeat;background-size: 100%;"></div>
+      <div class="row" id="upload-panl" style="padding: .7rem .5rem 0 1.3rem;">
         <div class="col-60">
-          <input type="file" name="upload-image">
+          <input type="file" name="upload-image" style="font-size: .8rem;">
         </div>
         <div class="col-40">
-          <a class="button button-fill button-warning" id="btn-upload">上传</a>
+          <a class="button button-fill" style="background-color: #929FB2;" id="btn-upload">上传</a>
         </div>
       </div>
+      <div style="padding: .3rem .5rem 1rem .6rem;color: red;font-size: .7rem;text-align: center">禁止上传涉密、武器装备等违法照片，<br>一切后果由本人承担。</div>
     </div>
-    <nav class="bar bar-tab">
-      <a class="tab-item external active" href="#" id="nav-ph">排行</a>
+    <nav class="bar bar-tab" style="background-image: url('img/4.jpg');color: #fff;">
+      <a class="tab-item external" href="#" id="nav-ph">排行</a>
       <a class="tab-item external" href="#" id="nav-fq">发起</a>
-      <a class="tab-item external" href="#" id="nav-jl">军旅</a>
+      <a class="tab-item external active" href="#" id="nav-jl">军旅</a>
     </nav>
   </div>
 </div>

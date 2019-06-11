@@ -8,7 +8,6 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
   <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
   <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
 </head>
@@ -16,33 +15,17 @@
 <div class="page-group">
   <div class="page page-current">
     <div class="content">
-      <div class="row">
-        <div class="col-100">
-          <div class="card">
-            <div class="card-content">
-              <div class="card-content-inner">
-                <img src="img/005.jpg" width="325" height="160">
-              </div>
-            </div>
-          </div>
-        </div>
+      <div style="height: 9rem;background: url('img/04.jpg') center repeat;background-size: 100%;"></div>
+      <div class="row rank-head" style="background-color: #537715;color: white; height: 2rem;line-height: 2rem;">
+        <div class="col-20" align="center">名次</div>
+        <div class="col-20" align="center">&nbsp;</div>
+        <div class="col-20" align="center">昵称</div>
+        <div class="col-20" align="center">兵种</div>
+        <div class="col-20" align="center">支持</div>
       </div>
-      <div class="row rank-head">
-        <div class="col-25" align="center">
-          名次
-        </div>
-        <div class="col-25" align="center">
-          昵称
-        </div>
-        <div class="col-25" align="center">
-          兵种
-        </div>
-        <div class="col-25" align="center">
-          支持
-        </div>
-      </div>
+      <div style="background-color: #E9F3E7;" id="rank-body"></div>
     </div>
-    <nav class="bar bar-tab">
+    <nav class="bar bar-tab" style="background-image: url('img/4.jpg');color: #fff;">
       <a class="tab-item external active" href="#" id="nav-ph">排行</a>
       <a class="tab-item external" href="#" id="nav-fq">发起</a>
       <a class="tab-item external" href="#" id="nav-jl">军旅</a>
@@ -114,15 +97,24 @@
       $.alert(ranks.msg, '提示');
     }else{
       let rank_contents = '';
+      let _index = 1;
       for(let rank of ranks.data){
-          rank_contents += `<div class="row">
-            <div class="col-25" align="center">1</div>
-            <div class="col-25" align="center">${rank.username}</div>
-            <div class="col-25" align="center">${rank.type}</div>
-            <div class="col-25" align="center">${rank.number}</div>
+          rank_contents += `<div class="row" style="line-height: 2.5rem;">
+            <div class="col-20" align="center">
+              ${_index <= 3 ? `<img src="img/${_index}.png" width="55" height="55">` : `${_index}`}
+            </div>
+            <div class="col-20" align="center">
+               <div style="width: 2.5rem; height: 2.5rem; border-radius: 50%; border: .1rem solid #fff; overflow: hidden;">
+                  <img src="${rank.headimgurl}" width="50" height="50" alt="${rank.username}" />
+               </div>
+            </div>
+            <div class="col-20" align="center">${rank.username}</div>
+            <div class="col-20" align="center">${rank.type}</div>
+            <div class="col-20" align="center">${rank.number}</div>
           </div>`;
       }
-      $('.rank-head').after(rank_contents);
+      _index++;
+      $('#rank-body').html(rank_contents);
     }
   });
 </script>
