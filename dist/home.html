@@ -14,25 +14,29 @@
 <body>
 <div class="page-group">
   <div class="page page-current">
-    <div class="content" style="padding-bottom: 5rem;">
-      <div style="background-color: brown;height: 8rem;"></div>
-      <div align="center" style="padding: .3rem 0 .3rem 0; height: 4.3rem;">
-        <div style="width: 4.1rem; height: 4.1rem; border-radius: 50%; border: .2rem solid #fff; overflow: hidden;">
-          <img src="img/default.jpeg" width="80" height="80" id="uAvatar" alt="uAvatar" />
+    <div class="content" style="margin-bottom: 2.5rem;">
+      <div style="height: 9rem;background: url('img/02.jpg') center repeat;background-size: 100%;"></div>
+      <div style="background: url('img/10.jpg');background-size: 100%;color: #fff;">
+        <div align="center" style="padding: .3rem 0 .3rem 0; height: 4.3rem;">
+          <div style="width: 4rem; height: 4rem; border-radius: 50%; border: .15rem solid #fff; overflow: hidden;">
+            <img src="img/default.jpeg" width="80" height="80" id="uAvatar" alt="uAvatar" />
+          </div>
+          <div id="uNickname">&nbsp;</div>
         </div>
-        <div id="uNickname">&nbsp;</div>
+        <div class="list-block" style="margin-top: 0;" align="center">
+          <p style="padding: .1rem; margin: .2rem;">我<span id="uType"></span><span id="uRank"></span><span id="uName"></span></p>
+          <p style="padding: .1rem; margin: .2rem;"><span id="uJointime"></span>年入伍</p>
+          <p style="padding: .3rem; margin: .2rem;"><a href="#" class="button button-fill button-big button-round" id="btn-like" style="background-color: yellow;color: red;">中国军人，为你加油</a></p>
+          <p style="padding: .3rem; margin: .2rem;" id="join-num">已有0人为他点赞</p>
+        </div>
       </div>
-      <div class="list-block" style="margin-top: 0;" align="center">
-        <p style="padding: .1rem; margin: .2rem;">我<span id="uType"></span><span id="uRank"></span><span id="uName"></span></p>
-        <p style="padding: .1rem; margin: .2rem;"><span id="uJointime"></span>年入伍</p>
-        <p style="padding: .3rem; margin: .2rem;"><a href="#" class="button button-fill button-big" id="btn-like">中国军人，为你加油</a></p>
-        <p style="padding: .3rem; margin: .2rem;" id="join-num">已有0人为他点赞</p>
-      </div>
+      <div style="color: #222222; margin-bottom: 1rem;" id="luckyList"></div>
       <div align="center"><a href="#" id="btn-share">我的战友你在哪？</a></div>
+      <div align="center"><a href="#" id="btn-change">修改资料</a></div>
     </div>
-    <nav class="bar bar-tab">
-      <a class="tab-item external active" href="#" id="nav-ph">排行</a>
-      <a class="tab-item external" href="#" id="nav-fq">发起</a>
+    <nav class="bar bar-tab" style="background-image: url('img/4.jpg');color: #fff;">
+      <a class="tab-item external" href="#" id="nav-ph">排行</a>
+      <a class="tab-item external active" href="#" id="nav-fq">发起</a>
       <a class="tab-item external" href="#" id="nav-jl">军旅</a>
     </nav>
   </div>
@@ -186,24 +190,24 @@
       //点赞列表
       let soldierList = '';
       for(var like of User.likes){
-        soldierList += `<div class="row">
+        soldierList += `<div class="row" style="font-size: .7rem;padding: .3rem;border-bottom: 1px solid #ccc;">
           <div class="col-20" align="center">
-            <div align="center" style="padding: .3rem 0 .3rem 0; height: 3.5rem;">
+            <div align="center">
               <div style="width: 2.5rem; height: 2.5rem; border-radius: 50%; border: .1rem solid #fff; overflow: hidden;">
                 <img src="${like.headimgurl}" width="50" height="50" alt="${like.nickname}" />
               </div>
             </div>
           </div>
           <div class="col-50" align="center">
-            <p style="margin: 0; text-align: left;">${like.nickname}</p>
+            <p style="margin: 0; text-align: left;color: chocolate;">${like.nickname}</p>
             <p style="margin: 0; text-align: left;">${like.remark}</p>
           </div>
           <div class="col-30" align="center">
-            <p style="margin: 0; text-align: left;font-size: .7rem;width:4rem;">${like.create_time}</p>
+            <p style="margin: 0; text-align: right;font-size: .6rem;width:4rem;">${like.create_time}</p>
           </div>
         </div>`;
       }
-      $('.list-block').after(soldierList);
+      $('#luckyList').html(soldierList);
 
       //参与人数
       query(`${soldierUrl}/getJoinNum?soldier_id=${User.soldier_id}`, joinnum => {
@@ -219,7 +223,7 @@
   });
 
   $('#btn-share').on('click', function () {
-    $.alert(`<textarea cols="25" rows="3">${location.href.substr(0, location.href.indexOf('&'))}</textarea>`, '复制链接');
+    $.alert(`<textarea cols="20" rows="3">${location.href.substr(0, location.href.indexOf('&'))}</textarea>`, '复制链接');
   });
 </script>
 </html>
