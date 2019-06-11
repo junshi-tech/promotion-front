@@ -103,6 +103,7 @@
 
   //上传图片
   $('#btn-upload').on('click', function () {
+    $(this).addClass('disabled').unbind('click');
     const fr = new FileReader();
     fr.onloadend = e => {
       const career = {};
