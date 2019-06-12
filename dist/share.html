@@ -16,12 +16,12 @@
     var share = function (share) {
         /* eslint-disable */
         wx.ready(function () {
-            wx.updateTimelineShareData(share)
-            wx.updateAppMessageShareData(share)
+            wx.updateAppMessageShareData(share);
+            wx.updateTimelineShareData(share);
         })
 
         wx.error(function(err){
-            alert(JSON.stringify(err));
+            alert('Err:' + JSON.stringify(err));
         });
         /* eslint-enable */
     }
@@ -41,8 +41,8 @@
             share({
                 title: '分享标题', // 分享标题
                 desc: '分享描述', // 分享描述
-                link: 'http://www.szsjunshi.com/home.html', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                imgUrl: 'http://www.szsjunshi.com:8080/img/1.png', // 分享图标
+                link: 'www.baidu.com', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: 'img/7.png', // 分享图标
                 success: function () {
                     // 用户点击了分享后执行的回调函数
                     alert('点击了分享');
