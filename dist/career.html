@@ -8,34 +8,38 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
-  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+  <style>
+    .weui-tabbar__item.weui-bar__item--on .weui-tabbar__label{color: yellow;}
+    .weui-tabbar__label{font-size: .7rem;font-weight: bolder; color: white;}
+  </style>
 </head>
 <body>
-<div class="page-group">
-  <div class="page page-current">
-    <div class="content" style="margin-bottom: 2.6rem;">
-      <div style="height: 9rem;background: url('img/03.jpg') center repeat;background-size: 100%;"></div>
-      <div class="row" id="upload-panl" style="padding: .7rem .5rem 0 1.3rem;">
-        <div class="col-60">
-          <input type="file" name="upload-image" style="font-size: .8rem;">
-        </div>
-        <div class="col-40">
-          <a class="button button-fill" style="background-color: #929FB2;" id="btn-upload">上传</a>
-        </div>
-      </div>
-      <div style="padding: .3rem .5rem 1rem .6rem;color: red;font-size: .7rem;text-align: center">禁止上传涉密、武器装备等违法照片，<br>一切后果由本人承担。</div>
-    </div>
-    <nav class="bar bar-tab" style="background-image: url('img/4.jpg');color: #fff;">
-      <a class="tab-item external" href="#" id="nav-ph">排行</a>
-      <a class="tab-item external" href="#" id="nav-fq">发起</a>
-      <a class="tab-item external active" href="#" id="nav-jl">军旅</a>
-    </nav>
-  </div>
+<div class="content" style="margin-bottom: 2.6rem;">
+  <div style="height: 10rem;background: url('img/03.jpg') center repeat;background-size: 100%;"></div>
+  <table width="100%">
+    <tr style="background-color: #ebebeb;">
+      <td><input type="file" name="upload-image"></td>
+      <td><a class="weui-btn weui-btn_plain-default" id="btn-upload">上传</a></td>
+    </tr>
+  </table>
+  <div class="weui-cells" id="upload-panel"></div>
+  <div style="padding: .3rem .5rem 1rem .6rem;color: red;font-size: .7rem;text-align: center">禁止上传涉密、武器装备等违法照片，<br>一切后果由本人承担。</div>
 </div>
-<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<div class="weui-tabbar" style="position: fixed; bottom: 0; height: 2.2rem;padding-top: .4rem;background-image: url('img/4.jpg');color: #fff;">
+  <a href="#" class="weui-tabbar__item" id="nav-ph">
+    <p class="weui-tabbar__label">排行榜</p>
+  </a>
+  <a href="#" class="weui-tabbar__item" id="nav-fq">
+    <p class="weui-tabbar__label">我要发起</p>
+  </a>
+  <a href="#" class="weui-tabbar__item weui-bar__item--on" id="nav-jl">
+    <p class="weui-tabbar__label">军旅生涯</p>
+  </a>
+</div>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 <script>
   //API 地址
   const soldierUrl = 'http://www.szsjunshi.com/soldier';
@@ -86,6 +90,8 @@
 
   /************************************* 业务代码 *************************************/
 
+  $.toptip('向左滑动图片删除', 5000, 'success');
+
   //导航路由
   $('#nav-ph').attr('href', `ranking.html?token=${params.token}&soldier_id=${params.soldier_id}`);
   $('#nav-fq').attr('href', `index.html?token=${params.token}&soldier_id=${params.soldier_id}`);
@@ -93,7 +99,12 @@
 
   //上传图片
   $('#btn-upload').on('click', function () {
-    $(this).addClass('disabled').unbind('click');
+    let file = $('input[name="upload-image"]').get(0).files[0];
+    if(file == undefined){
+      $.toptip('请选择文件', 'warning');
+      return false;
+    }
+
     const fr = new FileReader();
     fr.onloadend = e => {
       const career = {};
@@ -122,41 +133,47 @@
       //图片列表
       let pictures = '';
       for(let img of value.data.own.img_url){
-         pictures += `<div class="row">
-            <div class="col-100">
-              <div class="card">
-                <div class="card-content">
-                  <div class="card-content-inner" style="padding: 0; margin: 0;">
-                    <table width="100%">
-                      <tr>
-                        <td width="85%" style="padding: 0; margin: 0;"><img src="${img}" width="100%"></td>
-                        <td width="15%" style="background-color: #888; color: #fff; text-align: center;" class="btn-delete">删除</td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
+        pictures += `<div class="weui-cell weui-cell_swiped">
+          <div class="weui-cell__bd" style="transform: translate3d(0px, 0px, 0px);">
+            <div class="weui-cell">
+              <div class="weui-cell__bd">
+                <p><img src="${img}" width="100%"></p>
               </div>
             </div>
-          </div>`;
+          </div>
+          <div class="weui-cell__ft">
+            <a class="weui-swiped-btn weui-swiped-btn_warn delete-swipeout btn-delete" href="javascript:">删除</a>
+          </div>
+        </div>`;
       }
-      $('#upload-panl').after(pictures);
+      $('#upload-panel').html(pictures);
+      $('.weui-cell_swiped').swipeout();
 
       //删除图片
       $('.btn-delete').on('click', function () {
-         const image = {};
-         image.token = params.token;
-         image.soldier_id = params.soldier_id;
-         image.img_url = $(this).prev().find('img').attr('src');
-         query(`${soldierUrl}/delImg.html`, value => {
-           if (value.code) {
-             $.toast(value.msg);
-             location.reload();
-           }else{
-             $.alert(value.msg, '提示');
-           }
-         }, {
-           body: JSON.stringify(image),
-           method: 'POST'
+        let img_url = $(this).parent().prev().find('img').attr('src');
+        $.confirm({
+          title: '确认删除',
+          text: '您确认删除这张图片吗？',
+          onOK: function () {
+            const image = {};
+            image.token = params.token;
+            image.soldier_id = params.soldier_id;
+            image.img_url = img_url;
+            query(`${soldierUrl}/delImg.html`, value => {
+              if (value.code) {
+                $.toast(value.msg);
+                location.reload();
+              }else{
+                $.alert(value.msg, '提示');
+              }
+            }, {
+              body: JSON.stringify(image),
+              method: 'POST'
+            });
+          },
+          onCancel: function () {
+          }
         });
       });
     }else{
