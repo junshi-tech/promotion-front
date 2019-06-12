@@ -8,88 +8,60 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
-  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+  <style>
+    .weui-cells{background-color: transparent;color: #fff;}
+  </style>
 </head>
 <body>
-<div class="page-group">
-  <div class="page page-current">
-    <div class="content" style="background: url('img/10.jpg');background-size: 100%;">
-      <div style="height: 9rem;background: url('img/04 2.jpg') center repeat;background-size: 100%;"></div>
-      <div align="center" style="padding: .3rem 0 .3rem 0; height: 4.3rem;">
-        <div style="width: 4rem; height: 4rem; border-radius: 50%; border: .15rem solid #fff; overflow: hidden;">
-          <img src="img/default.jpeg" width="80" height="80" id="uAvatar" alt="uAvatar" />
-        </div>
-        <div id="uNickname">&nbsp;</div>
-      </div>
-      <div class="list-block" style="margin: .6rem .6rem 0 .6rem;">
-        <form id="uForm">
-          <ul>
-          <!-- Text inputs -->
-          <li>
-            <div class="item-content">
-              <div class="item-media"><i class="icon icon-form-name"></i></div>
-              <div class="item-inner">
-                <div class="item-title label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</div>
-                <div class="item-input">
-                  <input type="text" name="username" placeholder="请输入你的姓名">
-                </div>
-              </div>
-            </div>
-          </li>
-          <!-- Date -->
-          <li>
-            <div class="item-content">
-              <div class="item-media"><i class="icon icon-form-calendar"></i></div>
-              <div class="item-inner">
-                <div class="item-title label">入伍时间</div>
-                <div class="item-input">
-                  <input type="date" name="join_time" placeholder="请选择您的入伍时间" value="2014-04-30">
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="align-top">
-            <div class="item-content">
-              <div class="item-media"><i class="icon icon-form-comment"></i></div>
-              <div class="item-inner">
-                <div class="item-title label">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级</div>
-                <div class="item-input">
-                  <input type="text" name="rank" placeholder="请选择你的职级"/>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="align-top">
-            <div class="item-content">
-              <div class="item-media"><i class="icon icon-form-comment"></i></div>
-              <div class="item-inner">
-                <div class="item-title label">兵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种</div>
-                <div class="item-input">
-                  <input type="text" name="type" placeholder="请选择您的兵种"/>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ul>
-        </form>
-      </div>
-      <div class="content-block">
-        <div class="row">
-          <div class="col-100" align="center">
-            <a id="btn-send">
-              <img src="img/12.png" width="159" height="100">
-            </a>
-          </div>
-        </div>
-      </div>
+<div style="background: url('img/10.jpg');background-size: 100%;height: 31.4rem;">
+  <div style="height: 10rem;background: url('img/04 2.jpg') center repeat;background-size: 100%;"></div>
+  <div align="center" style="padding: .3rem 0 .7rem 0; height: 4.3rem;">
+    <div style="width: 4rem; height: 4rem; border-radius: 50%; border: .1rem solid #fff; overflow: hidden;">
+      <img src="img/default.jpeg" width="80" height="80" id="uAvatar" alt="uAvatar" />
     </div>
+    <div id="uNickname" style="color: white;">&nbsp;</div>
+  </div>
+  <div class="weui-cells weui-cells_form" style="margin: .6rem .6rem 1.3rem .6rem;">
+    <form id="uForm">
+      <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</label></div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" name="username" type="text" placeholder="请输入你的姓名">
+        </div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">入伍时间</label></div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" name="join_time" type="text" placeholder="请选择您的入伍时间">
+        </div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级</label></div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" name="rank" type="text" placeholder="请选择你的职级" readonly>
+        </div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">兵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;种</label></div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" name="type" type="text" placeholder="请选择您的兵种" readonly>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row" align="center">
+    <a id="btn-send">
+      <img src="img/12.png" width="129" height="80">
+    </a>
   </div>
 </div>
 
-<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/swiper.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/city-picker.min.js"></script>
 <script>
   const rank = ['义务兵', '士官', '军官'];
   const arm = ['陆军', '空军', '海军', '武警', '特种兵'];
@@ -120,22 +92,24 @@
    * @returns {{toolbarTemplate: string, cols: {textAlign: string, values: string[]}[]}}
    * @constructor
    */
-  const CreatePicker = (title = '标题', mod = 'rank', okTitle = '确定') => {
-     const picker = {toolbarTemplate: '', cols: [{textAlign: 'center', values: [...rank]}]};
-     picker.toolbarTemplate =
-       `<header class="bar bar-nav">
-         <button class="button button-link pull-right close-picker">${okTitle}</button>
-         <h1 class="title">${title}</h1>
-       </header>`;
-
-     if(mod != 'rank'){
-       picker.cols[0].values = [...arm];
-     }
-     return picker;
+  const CreatePicker = (title = '标题', mod = 'rank') => {
+    const options = {
+      title: title,
+      cols: [
+        {
+          textAlign: 'center',
+          values: mod == 'rank' ? rank : arm
+        }
+      ]
+    };
+    return options;
   }
 
   $("input[name='rank']").picker(CreatePicker('请选择你的职级'));
   $("input[name='type']").picker(CreatePicker('请选择你的兵种', 'arm'));
+  $("input[name='join_time']").calendar({
+    dateFormat: 'yyyy'
+  });
 
   /************************************* 业务代码 *************************************/
   localStorage.clear();
@@ -220,7 +194,6 @@
 
   //发起按钮事件
   $('#btn-send').on('click', function () {
-    $(this).addClass('disabled').unbind('click');
     var data = $('#uForm').serializeArray();
 
     //设置用户信息
