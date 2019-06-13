@@ -108,9 +108,11 @@
               ${_index > 3 ? _index : `<img src="img/${_index}.png" width="45" height="45" style="margin-top: .4rem;">`}
             </div>
             <div class="weui-flex__item" align="center" style="height: 3rem;">
-               <div style="width: 2rem; height: 2rem; border-radius: 50%; border: .1rem solid #fff; margin-top: .4rem; overflow: hidden;">
-                  <img src="${rank.headimgurl}" width="40" height="40" alt="${rank.username}" />
-               </div>
+               <a href="home.html?soldier_id=${rank.soldier_id}">
+                 <div style="width: 2rem; height: 2rem; border-radius: 50%; border: .1rem solid #fff; margin-top: .4rem; overflow: hidden;">
+                    <img src="${rank.headimgurl}" width="40" height="40" alt="${rank.username}" />
+                 </div>
+               </a>
             </div>
             <div class="weui-flex__item" align="center" style="height: 3rem;line-height: 3rem;">${rank.username}</div>
             <div class="weui-flex__item" align="center" style="height: 3rem;line-height: 3rem;">${rank.type}</div>
