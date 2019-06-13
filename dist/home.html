@@ -57,7 +57,7 @@
 </div>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
-<script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.2.0.js' charset='utf-8'></script>
+<script type='text/javascript' src='https://res.wx.qq.com/open/js/jweixin-1.4.0.js' charset='utf-8'></script>
 </body>
 <script>
   //标语列表
@@ -140,7 +140,7 @@
   /************************************* 业务代码 *************************************/
 
   //微信分享
-  query(`${soldierUrl}/Wechat/getShareConfig.html?url=${encodeURIComponent(location.href.substr(0, location.href.indexOf('&')))}`, value => {
+  /*query(`${soldierUrl}/Wechat/getShareConfig.html?url=${encodeURIComponent(location.href.substr(0, location.href.indexOf('&')))}`, value => {
      if(value.code){
        //微信分享初始化
        wx.config({
@@ -164,7 +164,7 @@
          })
        });
      }
-  });
+  });*/
 
   //检查是否登录
   if(!params.token){
