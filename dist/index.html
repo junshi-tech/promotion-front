@@ -113,7 +113,7 @@
   localStorage.clear();
 
   //API 地址
-  const soldierUrl = 'http://www.szsjunshi.com/soldier';
+  const soldierUrl = 'http://www.szsjunshi.com/api/soldier';
 
   /**
    * 获取链接参数
@@ -168,24 +168,28 @@
   //是否已授权
   if(!params.token){
     //location.href =  `${soldierUrl}/Wechat/Login.html?back_url=http://api.junshi.com`;
-    location.href =  `${soldierUrl}/Wechat/Login.html?back_url=http://www.szsjunshi.com:8080`;
+    location.href =  `${soldierUrl}/Wechat/Login.html?back_url=http://www.szsjunshi.com/api`;
   }else{
     //首次登录鉴权后获取用户信息
     query(`${soldierUrl}/Wechat/getUserInfo?token=${params.token}`, value => {
-      //设置头像和昵称
-      $('#uAvatar').attr('src', value.data.headimgurl);
-      $('#uNickname').text(value.data.nickname);
+      try{
+        //设置头像和昵称
+        $('#uAvatar').attr('src', value.data.headimgurl);
+        $('#uNickname').text(value.data.nickname);
 
-      //初始化当前用户属性,用于发起
-      User.token = params.token;
-      User.user_id = value.data.user_id;
-      User.soldier_id = value.data.soldier_id;
-      User.headimgurl = value.data.headimgurl;
-      User.nickname = value.data.nickname;
+        //初始化当前用户属性,用于发起
+        User.token = params.token;
+        User.user_id = value.data.user_id;
+        User.soldier_id = value.data.soldier_id;
+        User.headimgurl = value.data.headimgurl;
+        User.nickname = value.data.nickname;
 
-      //检测用户是否登录
-      if(User.soldier_id != null) {
-        location.href = `home.html?soldier_id=${User.soldier_id}&token=${params.token}`;
+        //检测用户是否登录
+        if(User.soldier_id != null) {
+          location.href = `home.html?soldier_id=${User.soldier_id}&token=${params.token}`;
+        }
+      } catch (e) {
+        $.toptip(e.message, 'error');
       }
     });
   }
