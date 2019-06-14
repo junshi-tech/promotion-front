@@ -123,6 +123,11 @@
       $('#rank-body').html(rank_contents);
     }
   });
+
+  //禁止分享此页面
+  document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideOptionMenu');
+  });
 </script>
 </body>
 </html>
