@@ -30,7 +30,7 @@
     var data;
     $.ajax({
         type: 'get',
-        url: 'http://www.szsjunshi.com/soldier/WeChat/getShareConfig',
+        url: 'http://www.szsjunshi.com/api/WeChat/getShareConfig',
         data: {url: encodeURI(window.location.href)},
         dataType:'json',
         success: function (res) {
