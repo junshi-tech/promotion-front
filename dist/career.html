@@ -180,6 +180,10 @@
       $.alert(value.msg, '提示');
     }
   });
+
+  document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideOptionMenu');
+  });
 </script>
 </body>
 </html>
