@@ -93,9 +93,9 @@
   $.toptip('向左滑动图片删除', 5000, 'success');
 
   //导航路由
-  $('#nav-ph').attr('href', `ranking.html?token=${params.token}&soldier_id=${params.soldier_id}`);
-  $('#nav-fq').attr('href', `index.html?token=${params.token}&soldier_id=${params.soldier_id}`);
-  $('#nav-jl').attr('href', `career.html?token=${params.token}&soldier_id=${params.soldier_id}`);
+  $('#nav-ph').attr('href', `ranking.html?soldier_id=${params.soldier_id}&token=${params.token}`);
+  $('#nav-fq').attr('href', `index.html?soldier_id=${params.soldier_id}&token=${params.token}`);
+  $('#nav-jl').attr('href', `career.html?soldier_id=${params.soldier_id}&token=${params.token}`);
 
   //上传图片
   $('#btn-upload').on('click', function () {
