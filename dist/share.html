@@ -22,8 +22,8 @@
      */
     const initShare = config => {
       wx.ready(function () {
-        wx.updateAppMessageShareData(share);
-        wx.updateTimelineShareData(share);
+        wx.updateAppMessageShareData(config);
+        wx.updateTimelineShareData(config);
       })
 
       wx.error(function(err){
