@@ -139,33 +139,6 @@
 
   /************************************* 业务代码 *************************************/
 
-  //微信分享
-  /*query(`${soldierUrl}/Wechat/getShareConfig.html?url=${encodeURIComponent(location.href.substr(0, location.href.indexOf('&')))}`, value => {
-     if(value.code){
-       //微信分享初始化
-       wx.config({
-         debug: false,
-         appId: value.data.appId,
-         timestamp: value.data.timestamp,
-         nonceStr: value.data.nonceStr,
-         signature: value.data.signature,
-         jsApiList: value.data.jsApiList
-       });
-
-       wx.ready(function () {
-         wx.onMenuShareAppMessage({
-           title: 'aaa',
-           desc: 'bbb',
-           link: value.data.url,
-           imgUrl: '',
-           success: function () {
-             // 设置成功
-           }
-         })
-       });
-     }
-  });*/
-
   //检查是否登录
   if(!params.token){
     location.href = encodeURI(`${soldierUrl}/Wechat/Login.html?back_url=${location.href}`);
@@ -246,5 +219,32 @@
   $('#btn-share').on('click', function () {
     $.alert(`<textarea cols="20" rows="3">${location.href.substr(0, location.href.indexOf('&'))}</textarea>`, '复制链接');
   });
+
+  //请求微信分享配置
+  $.get(`${soldierUrl}/WeChat/getShareConfig`, {url : encodeURI(window.location.href)}, result => {
+    const conf = result.data;
+    wx.config(conf);
+
+    let share = {
+      title: '为中国军人加油！',
+      desc: '一生戎装显露青春风采！',
+      link: location.href.substr(0, location.href.indexOf('&')),
+      imgUrl: 'http://www.szsjunshi.com:8080/img/20.jpg',
+      success: function () {
+        $.toptip('Ready', 'success');
+      }
+    };
+
+    //init start
+    wx.ready(function () {
+      wx.updateAppMessageShareData(share);
+      wx.updateTimelineShareData(share);
+    })
+
+    //init error hander
+    wx.error(function(err){
+      $.alert(JSON.stringify(err), '微信分享错误');
+    });
+  }, 'json');
 </script>
 </html>
