@@ -16,37 +16,32 @@
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 <script>
-    /**
-     * 初始化分享
-     * @param config
-     */
-    const initShare = config => {
-      wx.ready(function () {
-        wx.updateAppMessageShareData(config);
-        wx.updateTimelineShareData(config);
-      })
-
-      wx.error(function(err){
-        $.toast(JSON.stringify(err));
-      });
-    }
-
     //请求微信分享配置
     $.get('http://www.szsjunshi.com/api/WeChat/getShareConfig', {url : encodeURI(window.location.href)}, result => {
       const conf = result.data;
       wx.config(conf);
-      initShare(
-        {
-          title: '为中国军人加油！', // 分享标题
-          desc: '发送至朋友圈，寻找您的战友！', // 分享描述
-          link: 'http://www.szsjunshi.com:8080/home.html?soldier_id=9E36460F-6FD2-206B-0294-28B65455F9D0', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-          imgUrl: 'http://www.szsjunshi.com:8080/img/20.jpg', // 分享图标
-          success: function () {
-            // 用户点击了分享后执行的回调函数
-            $.toptip('点击了分享', 'success');
-          }
+
+      let share = {
+        title: '为中国军人加油！', // 分享标题
+        desc: '一生戎装显露青春风采！', // 分享描述
+        link: 'http://www.szsjunshi.com:8080/home.html?soldier_id=9E36460F-6FD2-206B-0294-28B65455F9D0', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: 'http://www.szsjunshi.com:8080/img/20.jpg', // 分享图标
+        success: function () {
+          // 用户点击了分享后执行的回调函数
+          $.toptip('点击了分享', 'success');
         }
-      );
+      };
+
+      //init start
+      wx.ready(function () {
+        wx.updateAppMessageShareData(share);
+        wx.updateTimelineShareData(share);
+      })
+
+      //init error hander
+      wx.error(function(err){
+        $.toast(JSON.stringify(err));
+      });
     }, 'json');
 </script>
 </html>
