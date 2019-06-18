@@ -105,6 +105,10 @@
       return false;
     }
 
+    if($('#btn-upload').text() != '上传'){
+      return false;
+    }
+
     $('#btn-upload').addClass('weui-btn_disabled').text('上传中...');
     const fr = new FileReader();
     fr.onloadend = e => {
