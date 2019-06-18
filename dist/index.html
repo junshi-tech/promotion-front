@@ -105,8 +105,11 @@
 
   $("input[name='rank']").picker(CreatePicker('请选择你的职级'));
   $("input[name='type']").picker(CreatePicker('请选择你的兵种', 'arm'));
-  $("input[name='join_time']").calendar({
-    dateFormat: 'yyyy'
+  $("input[name='join_time']").datetimePicker({
+    title: '请选择入伍日期',
+    times: function () {
+      return [];
+    }
   });
 
   /************************************* 业务代码 *************************************/
