@@ -20,8 +20,8 @@
   <div style="height: 10rem;background: url('img/03.jpg') center repeat;background-size: 100%;"></div>
   <table width="100%">
     <tr style="background-color: #EBF2E8;">
-      <td><input type="file" name="upload-image"></td>
-      <td><a class="weui-btn weui-btn_primary" id="btn-upload">上传</a></td>
+      <td><input type="file" name="upload-image" style="display: none;"></td>
+      <td><a class="weui-btn weui-btn_primary" id="btn-upload">上传图片</a></td>
     </tr>
   </table>
   <div class="weui-cells" id="upload-panel"></div>
@@ -101,14 +101,11 @@
   $('#btn-upload').on('click', function () {
     let file = $('input[name="upload-image"]').get(0).files[0];
     if(file == undefined){
-      $.toptip('请选择文件', 'warning');
-      return false;
+      $('input[name="upload-image"]').click();
     }
+  });
 
-    if($('#btn-upload').text() != '上传'){
-      return false;
-    }
-
+  $('input[name="upload-image"]').on('change', function () {
     $('#btn-upload').addClass('weui-btn_disabled').text('上传中...');
     const fr = new FileReader();
     fr.onloadend = e => {
